@@ -48,6 +48,19 @@ pub struct Config {
     pub kem: Kem,
 }
 
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
+impl Config {
+    pub fn base_mode_seal(
+        self,
+        pk_recip: &[u8],
+        info: &[u8],
+        plaintext: &[u8],
+        aad: &[u8],
+    ) -> Result<EncappedKeyAndCiphertext, HpkeError> {
+        base_mode_seal(self, pk_recip, info, plaintext, aad)
+    }
+}
+
 #[derive(Copy, Clone, Debug)]
 #[cfg_attr(feature = "wasm", wasm_bindgen)]
 pub struct IdLookupError;
