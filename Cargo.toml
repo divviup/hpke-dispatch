@@ -1,0 +1,35 @@
+[package]
+name = "runtime-hpke"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+wasm = ["wasm-bindgen", "getrandom/js", "getrandom/js-sys"]
+default = ["aead-all", "kdf-all", "kem-all"]
+aead-all = ["aead-aes-gcm-128", "aead-aes-gcm-256", "aead-chacha-20-poly-1305"]
+aead-aes-gcm-128 = []
+aead-aes-gcm-256 = []
+aead-chacha-20-poly-1305 = []
+kdf-all = ["kdf-sha256", "kdf-sha384", "kdf-sha512"]
+kdf-sha256 = []
+kdf-sha384 = []
+kdf-sha512 = []
+kem-all = ["kem-dh-p256-hkdf-sha256", "kem-x25519-hkdf-sha256"]
+kem-dh-p256-hkdf-sha256 = ["hpke/p256"]
+kem-x25519-hkdf-sha256 = ["hpke/x25519"]
+
+[dependencies]
+aead = "0.4.3"
+rand = "0.8.5"
+thiserror = "1.0.30"
+num_enum = "0.5.7"
+wasm-bindgen = { version = "0.2.80", optional = true }
+getrandom = "0.2.6"
+cfg-if = "1.0.0"
+
+[dependencies.hpke]
+version = "0.8.0"
+default-features = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
