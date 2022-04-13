@@ -4,7 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
-wasm = ["wasm-bindgen", "getrandom/js", "getrandom/js-sys"]
 default = ["aead-all", "kdf-all", "kem-all"]
 aead-all = ["aead-aes-gcm-128", "aead-aes-gcm-256", "aead-chacha-20-poly-1305"]
 aead-aes-gcm-128 = []
@@ -21,12 +20,11 @@ kem-x25519-hkdf-sha256 = ["hpke/x25519"]
 [dependencies]
 rand = "0.8.5"
 num_enum = "0.5.7"
-getrandom = "0.2.6"
 cfg-if = "1.0.0"
 
-[dependencies.wasm-bindgen]
-version = "0.2.80"
-optional = true
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2.80"
+getrandom = { version = "0.2.6", features = ["js", "js-sys"] }
 
 [dependencies.hpke]
 version = "0.8.0"

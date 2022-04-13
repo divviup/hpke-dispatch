@@ -1,12 +1,12 @@
 use hpke::{single_shot_seal, Deserializable, OpModeS::Base, Serializable};
 use num_enum::TryFromPrimitive;
-#[cfg(feature = "wasm")]
+#[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
 
 #[non_exhaustive]
 #[repr(u16)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, TryFromPrimitive)]
-#[cfg_attr(feature = "wasm", wasm_bindgen)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub enum Aead {
     #[cfg(feature = "aead-aes-gcm-128")]
     AesGcm128 = 1,
@@ -19,7 +19,7 @@ pub enum Aead {
 #[non_exhaustive]
 #[repr(u16)]
 #[derive(Copy, Clone, Debug, PartialEq, Eq, TryFromPrimitive)]
-#[cfg_attr(feature = "wasm", wasm_bindgen)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub enum Kdf {
     #[cfg(feature = "kdf-sha256")]
     Sha256 = 1,
@@ -32,7 +32,7 @@ pub enum Kdf {
 #[non_exhaustive]
 #[repr(u16)]
 #[derive(Copy, Clone, Debug, PartialEq, Eq, TryFromPrimitive)]
-#[cfg_attr(feature = "wasm", wasm_bindgen)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub enum Kem {
     #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
     DhP256HkdfSha256 = 10,
@@ -41,14 +41,14 @@ pub enum Kem {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-#[cfg_attr(feature = "wasm", wasm_bindgen)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub struct Config {
     pub aead: Aead,
     pub kdf: Kdf,
     pub kem: Kem,
 }
 
-#[cfg_attr(feature = "wasm", wasm_bindgen)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 impl Config {
     pub fn base_mode_seal(
         self,
@@ -62,7 +62,7 @@ impl Config {
 }
 
 #[derive(Copy, Clone, Debug)]
-#[cfg_attr(feature = "wasm", wasm_bindgen)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub struct IdLookupError;
 impl std::fmt::Display for IdLookupError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -71,7 +71,7 @@ impl std::fmt::Display for IdLookupError {
 }
 impl std::error::Error for IdLookupError {}
 
-#[cfg_attr(feature = "wasm", wasm_bindgen)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 impl Config {
     pub fn try_from_ids(aead_id: u16, kdf_id: u16, kem_id: u16) -> Result<Config, IdLookupError> {
         Ok(Self {
@@ -138,7 +138,7 @@ macro_rules! match_kdf {
 }
 
 cfg_if::cfg_if! {
-    if #[cfg(feature = "wasm")] {
+    if #[cfg(target_arch = "wasm32")] {
         #[wasm_bindgen]
         pub struct EncappedKeyAndCiphertext {
             encapped_key: Vec<u8>,
@@ -162,32 +162,32 @@ cfg_if::cfg_if! {
     }
 }
 
-#[cfg_attr(feature = "wasm", wasm_bindgen)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 impl EncappedKeyAndCiphertext {
-    #[cfg(feature = "wasm")]
+    #[cfg(target_arch = "wasm32")]
     #[wasm_bindgen(getter)]
     pub fn encapped_key(&self) -> Vec<u8> {
         self.encapped_key.clone()
     }
 
-    #[cfg(not(feature = "wasm"))]
+    #[cfg(not(target_arch = "wasm32"))]
     pub fn encapped_key(&self) -> &[u8] {
         &self.encapped_key
     }
 
-    #[cfg(feature = "wasm")]
+    #[cfg(target_arch = "wasm32")]
     #[wasm_bindgen(getter)]
     pub fn ciphertext(&self) -> Vec<u8> {
         self.ciphertext.clone()
     }
 
-    #[cfg(not(feature = "wasm"))]
+    #[cfg(not(target_arch = "wasm32"))]
     pub fn ciphertext(&self) -> &[u8] {
         &self.ciphertext
     }
 }
 
-#[cfg_attr(feature = "wasm", wasm_bindgen)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub fn base_mode_seal(
     config: Config,
     pk_recip: &[u8],
