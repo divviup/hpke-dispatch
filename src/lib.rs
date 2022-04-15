@@ -62,6 +62,17 @@ impl Config {
     ) -> Result<EncappedKeyAndCiphertext, HpkeError> {
         base_mode_seal(self, pk_recip, info, plaintext, aad)
     }
+
+    pub fn base_mode_open(
+        self,
+        private_key: &[u8],
+        ciphertext: &[u8],
+        encapped_key: &[u8],
+        info: &[u8],
+        aad: &[u8],
+    ) -> Result<Vec<u8>, HpkeError> {
+        base_mode_open(self, private_key, ciphertext, encapped_key, info, aad)
+    }
 }
 
 #[derive(Copy, Clone, Debug)]
