@@ -1,4 +1,7 @@
-use hpke::{single_shot_seal, Deserializable, OpModeS::Base, Serializable};
+use hpke::{
+    single_shot_open, single_shot_seal, Deserializable, OpModeR::Base as BaseRecip,
+    OpModeS::Base as BaseSend, Serializable,
+};
 use num_enum::TryFromPrimitive;
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
@@ -99,7 +102,7 @@ where
 {
     let mut csprng = rand::thread_rng();
     let (encapped_key, ciphertext) = single_shot_seal::<AeadT, KdfT, KemT, _>(
-        &Base,
+        &BaseSend,
         &from_bytes(pk_recip)?,
         info,
         plaintext,
@@ -113,26 +116,48 @@ where
     })
 }
 
+fn open<AeadT, KdfT, KemT>(
+    private_key: &[u8],
+    ciphertext: &[u8],
+    encapped_key: &[u8],
+    info: &[u8],
+    aad: &[u8],
+) -> Result<Vec<u8>, HpkeError>
+where
+    AeadT: hpke::aead::Aead,
+    KdfT: hpke::kdf::Kdf,
+    KemT: hpke::kem::Kem,
+{
+    Ok(single_shot_open::<AeadT, KdfT, KemT>(
+        &BaseRecip,
+        &from_bytes(private_key)?,
+        &from_bytes(encapped_key)?,
+        info,
+        &ciphertext,
+        aad,
+    )?)
+}
+
 macro_rules! match_kem {
-    ($aead:ty, $kdf:ty, $kem:expr) => {
+    ($aead:ty, $kdf:ty, $kem:expr, $fn:ident) => {
         match $kem {
             #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
-            Kem::DhP256HkdfSha256 => seal::<$aead, $kdf, hpke::kem::DhP256HkdfSha256>,
+            Kem::DhP256HkdfSha256 => $fn::<$aead, $kdf, hpke::kem::DhP256HkdfSha256>,
             #[cfg(feature = "kem-x25519-hkdf-sha256")]
-            Kem::X25519HkdfSha256 => seal::<$aead, $kdf, hpke::kem::X25519HkdfSha256>,
+            Kem::X25519HkdfSha256 => $fn::<$aead, $kdf, hpke::kem::X25519HkdfSha256>,
         }
     };
 }
 
 macro_rules! match_kdf {
-    ($aead:ty, $kdf:expr, $kem:expr) => {
+    ($aead:ty, $kdf:expr, $kem:expr, $fn:ident) => {
         match $kdf {
             #[cfg(feature = "kdf-sha256")]
-            Kdf::Sha256 => match_kem!($aead, hpke::kdf::HkdfSha256, $kem),
+            Kdf::Sha256 => match_kem!($aead, hpke::kdf::HkdfSha256, $kem, $fn),
             #[cfg(feature = "kdf-sha384")]
-            Kdf::Sha384 => match_kem!($aead, hpke::kdf::HkdfSha384, $kem),
+            Kdf::Sha384 => match_kem!($aead, hpke::kdf::HkdfSha384, $kem, $fn),
             #[cfg(feature = "kdf-sha512")]
-            Kdf::Sha512 => match_kem!($aead, hpke::kdf::HkdfSha512, $kem),
+            Kdf::Sha512 => match_kem!($aead, hpke::kdf::HkdfSha512, $kem, $fn),
         }
     };
 }
@@ -152,6 +177,9 @@ cfg_if::cfg_if! {
                 Self(h)
             }
         }
+
+        #[global_allocator]
+        static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
     } else {
         pub struct EncappedKeyAndCiphertext {
             pub encapped_key: Vec<u8>,
@@ -199,12 +227,35 @@ pub fn base_mode_seal(
 
     let seal = match aead {
         #[cfg(feature = "aead-aes-gcm-128")]
-        Aead::AesGcm128 => match_kdf!(hpke::aead::AesGcm128, kdf, kem),
+        Aead::AesGcm128 => match_kdf!(hpke::aead::AesGcm128, kdf, kem, seal),
         #[cfg(feature = "aead-aes-gcm-256")]
-        Aead::AesGcm256 => match_kdf!(hpke::aead::AesGcm256, kdf, kem),
+        Aead::AesGcm256 => match_kdf!(hpke::aead::AesGcm256, kdf, kem, seal),
         #[cfg(feature = "aead-chacha-20-poly-1305")]
-        Aead::ChaCha20Poly1305 => match_kdf!(hpke::aead::ChaCha20Poly1305, kdf, kem),
+        Aead::ChaCha20Poly1305 => match_kdf!(hpke::aead::ChaCha20Poly1305, kdf, kem, seal),
     };
 
     seal(pk_recip, info, plaintext, aad)
+}
+
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
+pub fn base_mode_open(
+    config: Config,
+    private_key: &[u8],
+    encapped_key: &[u8],
+    ciphertext: &[u8],
+    info: &[u8],
+    aad: &[u8],
+) -> Result<Vec<u8>, HpkeError> {
+    let Config { aead, kdf, kem } = config;
+
+    let open = match aead {
+        #[cfg(feature = "aead-aes-gcm-128")]
+        Aead::AesGcm128 => match_kdf!(hpke::aead::AesGcm128, kdf, kem, open),
+        #[cfg(feature = "aead-aes-gcm-256")]
+        Aead::AesGcm256 => match_kdf!(hpke::aead::AesGcm256, kdf, kem, open),
+        #[cfg(feature = "aead-chacha-20-poly-1305")]
+        Aead::ChaCha20Poly1305 => match_kdf!(hpke::aead::ChaCha20Poly1305, kdf, kem, open),
+    };
+
+    open(private_key, ciphertext, encapped_key, info, aad)
 }
