@@ -11,7 +11,7 @@ use wasm_bindgen::prelude::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, TryFromPrimitive)]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 #[cfg_attr(feature = "serde", derive(serde_crate::Serialize, serde_crate::Deserialize))]
-#[serde(crate = "serde_crate")]
+#[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
 pub enum Aead {
     #[cfg(feature = "aead-aes-gcm-128")]
     AesGcm128 = 1,
@@ -26,7 +26,7 @@ pub enum Aead {
 #[derive(Copy, Clone, Debug, PartialEq, Eq, TryFromPrimitive)]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 #[cfg_attr(feature = "serde", derive(serde_crate::Serialize, serde_crate::Deserialize))]
-#[serde(crate = "serde_crate")]
+#[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
 pub enum Kdf {
     #[cfg(feature = "kdf-sha256")]
     Sha256 = 1,
@@ -41,7 +41,7 @@ pub enum Kdf {
 #[derive(Copy, Clone, Debug, PartialEq, Eq, TryFromPrimitive)]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 #[cfg_attr(feature = "serde", derive(serde_crate::Serialize, serde_crate::Deserialize))]
-#[serde(crate = "serde_crate")]
+#[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
 pub enum Kem {
     #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
     DhP256HkdfSha256 = 10,
@@ -52,7 +52,7 @@ pub enum Kem {
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 #[cfg_attr(feature = "serde", derive(serde_crate::Serialize, serde_crate::Deserialize))]
-#[serde(crate = "serde_crate")]
+#[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
 pub struct Config {
     pub aead: Aead,
     pub kdf: Kdf,
@@ -86,7 +86,7 @@ impl Config {
 #[derive(Copy, Clone, Debug)]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 #[cfg_attr(feature = "serde", derive(serde_crate::Serialize, serde_crate::Deserialize))]
-#[serde(crate = "serde_crate")]
+#[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
 pub struct IdLookupError;
 impl std::fmt::Display for IdLookupError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
