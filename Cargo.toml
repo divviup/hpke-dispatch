@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
+serde = ["serde_crate"]
 default = ["aead-all", "kdf-all", "kem-all"]
 aead-all = ["aead-aes-gcm-128", "aead-aes-gcm-256", "aead-chacha-20-poly-1305"]
 aead-aes-gcm-128 = []
@@ -22,6 +23,12 @@ rand = "0.8.5"
 num_enum = "0.5.7"
 cfg-if = "1.0.0"
 hpke = { version = "0.8.0", default-features = false }
+
+[dependencies.serde_crate]
+version = "1.0.136"
+features = ["derive"]
+optional = true
+package = "serde"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2.80"
