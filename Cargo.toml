@@ -4,8 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
+cfg_eval = []
+base-mode-open = []
+base-mode-seal = []
 serde = ["serde_crate"]
-default = ["aead-all", "kdf-all", "kem-all"]
+algo-all = ["aead-all", "kdf-all", "kem-all"]
+default = ["algo-all", "base-mode-seal", "base-mode-open"]
 aead-all = ["aead-aes-gcm-128", "aead-aes-gcm-256", "aead-chacha-20-poly-1305"]
 aead-aes-gcm-128 = []
 aead-aes-gcm-256 = []

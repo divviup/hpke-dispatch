@@ -1,7 +1,61 @@
-use hpke::{
-    single_shot_open, single_shot_seal, Deserializable, OpModeR::Base as BaseRecip,
-    OpModeS::Base as BaseSend, Serializable,
-};
+#![cfg_attr(feature = "cfg_eval", feature(cfg_eval))]
+
+/*!
+
+This crate provides a generic-free interface to the [`hpke`][hpke]
+## nightly-only feature: `cfg_eval`
+
+In order to opt out of `algo-all` for a wasm build, you must use
+nightly and enable the `cfg_eval` cargo feature. This is due to
+[wasm-bindgen#2058][wasm-bindgen-2058]. This is not necessary for use
+from rust, even when opting out of `algo-all`.
+
+[hpke]: https://docs.rs/hpke/latest/hpke/
+[wasm-bindgen-2058]: https://github.com/rustwasm/wasm-bindgen/issues/2058
+
+## Available cargo features:
+
+* *cfg_eval*: allows this crate to be built on nightly rust for wasm
+  without default features. Note that default features (all
+  algorithms) will build for wasm on any channel without this feature.
+ disabled by default.
+
+* *base-mode-open*: enables hpke base-mode one-shot open behavior
+  (receiver functionality). enabled by default
+
+* *base-mode-seal*: enables hpke base-mode one-shot seal behavior
+  (sender functionality). enabled by default
+
+* *algo-all*: enables all aead, kdf, and kem algorithms. enabled by
+  default.
+
+* *aead-all*: enables aead-aes-gcm-128, aead-aes-gcm-256,
+  and aead-chacha-20-poly-1305 algorithms. enabled by default.
+
+* *kdf-all*: enables the kdf-sha256, kdf-sha384, kdf-sha512 algorithms
+
+* *kem-all*: enables both kem-dh-p256-hkdf-sha256 and
+  kem-x25519-hkdf-sha256 algorithms
+
+* *serde*: enables derived serde serialization and deserialization for
+  all public structs and enums. disabled by default
+
+
+## Example usage:
+
+To depend on this crate from rust with all algorithms, base-mode-open, and base-mode-seal, use default features.
+
+To depend on this crate from rust with all algorithms and serde enabled, but without base-mode-seal: `default-features = false, features = ["algo-all", "base-mode-open", "serde"]`
+
+To build for wasm without kem-x25519-hkdf-sha256 or base-mode-open:
+`wasm-pack build --no-default-features --features aead-all,kdf-all,kem-dh-p256-hkdf-sha256,base-mode-seal,cfg_eval`
+
+To build for wasm with all algorithms but without base-mode-open:
+`wasm-pack build --no-default-features --features algo-all,base-mode-seal`
+
+*/
+
+use hpke::Deserializable;
 use num_enum::TryFromPrimitive;
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
@@ -9,9 +63,13 @@ use wasm_bindgen::prelude::*;
 #[non_exhaustive]
 #[repr(u16)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, TryFromPrimitive)]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
-#[cfg_attr(feature = "serde", derive(serde_crate::Serialize, serde_crate::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde_crate::Serialize, serde_crate::Deserialize)
+)]
 #[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
+#[cfg_attr(feature = "cfg_eval", cfg_eval)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub enum Aead {
     #[cfg(feature = "aead-aes-gcm-128")]
     AesGcm128 = 1,
@@ -24,9 +82,13 @@ pub enum Aead {
 #[non_exhaustive]
 #[repr(u16)]
 #[derive(Copy, Clone, Debug, PartialEq, Eq, TryFromPrimitive)]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
-#[cfg_attr(feature = "serde", derive(serde_crate::Serialize, serde_crate::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde_crate::Serialize, serde_crate::Deserialize)
+)]
 #[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
+#[cfg_attr(feature = "cfg_eval", cfg_eval)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub enum Kdf {
     #[cfg(feature = "kdf-sha256")]
     Sha256 = 1,
@@ -39,9 +101,13 @@ pub enum Kdf {
 #[non_exhaustive]
 #[repr(u16)]
 #[derive(Copy, Clone, Debug, PartialEq, Eq, TryFromPrimitive)]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
-#[cfg_attr(feature = "serde", derive(serde_crate::Serialize, serde_crate::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde_crate::Serialize, serde_crate::Deserialize)
+)]
 #[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
+#[cfg_attr(feature = "cfg_eval", cfg_eval)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub enum Kem {
     #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
     DhP256HkdfSha256 = 10,
@@ -51,7 +117,10 @@ pub enum Kem {
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
-#[cfg_attr(feature = "serde", derive(serde_crate::Serialize, serde_crate::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde_crate::Serialize, serde_crate::Deserialize)
+)]
 #[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
 pub struct Config {
     pub aead: Aead,
@@ -61,6 +130,7 @@ pub struct Config {
 
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 impl Config {
+    #[cfg(feature = "base-mode-seal")]
     pub fn base_mode_seal(
         self,
         pk_recip: &[u8],
@@ -71,6 +141,7 @@ impl Config {
         base_mode_seal(self, pk_recip, info, plaintext, aad)
     }
 
+    #[cfg(feature = "base-mode-open")]
     pub fn base_mode_open(
         self,
         private_key: &[u8],
@@ -85,7 +156,10 @@ impl Config {
 
 #[derive(Copy, Clone, Debug)]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
-#[cfg_attr(feature = "serde", derive(serde_crate::Serialize, serde_crate::Deserialize))]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde_crate::Serialize, serde_crate::Deserialize)
+)]
 #[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
 pub struct IdLookupError;
 impl std::fmt::Display for IdLookupError {
@@ -110,6 +184,7 @@ fn from_bytes<T: Deserializable>(encoded: &[u8]) -> Result<T, HpkeError> {
     Ok(T::from_bytes(encoded)?)
 }
 
+#[cfg(feature = "base-mode-seal")]
 fn seal<AeadT, KdfT, KemT>(
     pk_recip: &[u8],
     info: &[u8],
@@ -121,14 +196,15 @@ where
     KdfT: hpke::kdf::Kdf,
     KemT: hpke::kem::Kem,
 {
-    let mut csprng = rand::thread_rng();
-    let (encapped_key, ciphertext) = single_shot_seal::<AeadT, KdfT, KemT, _>(
-        &BaseSend,
+    use hpke::Serializable;
+
+    let (encapped_key, ciphertext) = hpke::single_shot_seal::<AeadT, KdfT, KemT, _>(
+        &hpke::OpModeS::Base,
         &from_bytes(pk_recip)?,
         info,
         plaintext,
         aad,
-        &mut csprng,
+        &mut rand::thread_rng(),
     )?;
 
     Ok(EncappedKeyAndCiphertext {
@@ -137,6 +213,7 @@ where
     })
 }
 
+#[cfg(feature = "base-mode-open")]
 fn open<AeadT, KdfT, KemT>(
     private_key: &[u8],
     ciphertext: &[u8],
@@ -149,8 +226,8 @@ where
     KdfT: hpke::kdf::Kdf,
     KemT: hpke::kem::Kem,
 {
-    Ok(single_shot_open::<AeadT, KdfT, KemT>(
-        &BaseRecip,
+    Ok(hpke::single_shot_open::<AeadT, KdfT, KemT>(
+        &hpke::OpModeR::Base,
         &from_bytes(private_key)?,
         &from_bytes(encapped_key)?,
         info,
@@ -211,32 +288,22 @@ cfg_if::cfg_if! {
     }
 }
 
+#[cfg(target_arch = "wasm32")]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 impl EncappedKeyAndCiphertext {
-    #[cfg(target_arch = "wasm32")]
     #[wasm_bindgen(getter)]
     pub fn encapped_key(&self) -> Vec<u8> {
         self.encapped_key.clone()
     }
 
-    #[cfg(not(target_arch = "wasm32"))]
-    pub fn encapped_key(&self) -> &[u8] {
-        &self.encapped_key
-    }
-
-    #[cfg(target_arch = "wasm32")]
     #[wasm_bindgen(getter)]
     pub fn ciphertext(&self) -> Vec<u8> {
         self.ciphertext.clone()
     }
-
-    #[cfg(not(target_arch = "wasm32"))]
-    pub fn ciphertext(&self) -> &[u8] {
-        &self.ciphertext
-    }
 }
 
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
+#[cfg(feature = "base-mode-seal")]
 pub fn base_mode_seal(
     config: Config,
     pk_recip: &[u8],
@@ -259,6 +326,7 @@ pub fn base_mode_seal(
 }
 
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
+#[cfg(feature = "base-mode-open")]
 pub fn base_mode_open(
     config: Config,
     private_key: &[u8],
