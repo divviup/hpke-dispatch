@@ -1,5 +1,5 @@
 [package]
-name = "runtime-hpke"
+name = "hpke-dispatch"
 version = "0.1.0"
 edition = "2021"
 
