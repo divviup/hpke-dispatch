@@ -181,6 +181,7 @@ impl Config {
 }
 
 /**
+A simple error type for failed id lookups
 */
 #[derive(Copy, Clone, Debug)]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
@@ -189,10 +190,10 @@ impl Config {
     derive(serde_crate::Serialize, serde_crate::Deserialize)
 )]
 #[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
-pub struct IdLookupError;
+pub struct IdLookupError(&'static str);
 impl std::fmt::Display for IdLookupError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str("id lookup error")
+        f.write_fmt(format_args!("id lookup error {}", self.0))
     }
 }
 impl std::error::Error for IdLookupError {}
@@ -200,17 +201,18 @@ impl std::error::Error for IdLookupError {}
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 impl Config {
     /// Attempt to convert three u16 ids into a valid config. The id mappings are defined in the draft.
-    pub fn try_from_ids(aead_id: u16, kdf_id: u16, kem_id: u16) -> Result<Self, IdLookupError> {
+    #[allow(clippy::use_self)] // wasm_bindgen gets confused about Self
+    pub fn try_from_ids(aead_id: u16, kdf_id: u16, kem_id: u16) -> Result<Config, IdLookupError> {
         Ok(Self {
-            aead: aead_id.try_into().map_err(|_| IdLookupError)?,
-            kdf: kdf_id.try_into().map_err(|_| IdLookupError)?,
-            kem: kem_id.try_into().map_err(|_| IdLookupError)?,
+            aead: aead_id.try_into().map_err(|_| IdLookupError("aead"))?,
+            kdf: kdf_id.try_into().map_err(|_| IdLookupError("kdf"))?,
+            kem: kem_id.try_into().map_err(|_| IdLookupError("kem"))?,
         })
     }
 }
 
 fn from_bytes<T: Deserializable>(encoded: &[u8]) -> Result<T, HpkeError> {
-    T::from_bytes(encoded)
+    T::from_bytes(encoded).map_err(Into::into)
 }
 
 #[cfg(feature = "base-mode-seal")]
@@ -263,6 +265,7 @@ where
         ciphertext,
         aad,
     )
+    .map_err(Into::into) // this is noop unless compiling for wasm.
 }
 
 macro_rules! match_kem {
@@ -291,6 +294,10 @@ macro_rules! match_kdf {
 
 cfg_if::cfg_if! {
     if #[cfg(target_arch = "wasm32")] {
+        /**
+        a simple struct to return the combined encapsulated key
+        and ciphertext from seal
+        */
         #[wasm_bindgen]
         #[derive(Debug, Clone, PartialEq, Eq)]
         pub struct EncappedKeyAndCiphertext {
@@ -300,7 +307,11 @@ cfg_if::cfg_if! {
             ciphertext: Vec<u8>
         }
 
+        /**
+        a newtype wrapper for HpkeError so we can use it in wasm_bindgen
+         */
         #[wasm_bindgen]
+        #[derive(Debug, Clone, Copy)]
         pub struct HpkeError(hpke::HpkeError);
         impl From<hpke::HpkeError> for HpkeError {
             fn from(h: hpke::HpkeError) -> Self {
@@ -330,11 +341,13 @@ cfg_if::cfg_if! {
 #[cfg(target_arch = "wasm32")]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 impl EncappedKeyAndCiphertext {
+    /// getter for encapped_key
     #[wasm_bindgen(getter)]
     pub fn encapped_key(&self) -> Vec<u8> {
         self.encapped_key.clone()
     }
 
+    /// getter for ciphertext
     #[wasm_bindgen(getter)]
     pub fn ciphertext(&self) -> Vec<u8> {
         self.ciphertext.clone()
