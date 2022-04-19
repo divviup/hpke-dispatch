@@ -2,6 +2,12 @@
 name = "hpke-dispatch"
 version = "0.1.0"
 edition = "2021"
+description = "runtime algorithmic selection for hybrid public key encryption"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/jbr/hpke-dispatch"
+readme = "./README.md"
+keywords = ["hpke", "encryption"]
+categories = ["cryptography"]
 
 [features]
 cfg_eval = []
