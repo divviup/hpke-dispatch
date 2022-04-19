@@ -54,3 +54,18 @@ jobs:
 
     - name: Docs
       run: cargo doc --no-deps
+
+  wasm-pack:
+    name: Wasm stuff
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+        target: wasm32-unknown-unknown
+    - name: install wasm-pack
+      run: cargo install wasm-pack
+    - name: build with default features
+      run: wasm-pack build
