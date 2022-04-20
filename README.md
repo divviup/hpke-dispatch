@@ -15,9 +15,12 @@ single-shot message encryption/decryption, as defined in [RFC9180§6][section-6]
 
 ## Web-assembly ready
 
-This crate will also be published to npm as a typescript/javascript
-package, and can also be custom-built for specific wasm use-cases with
+This crate is also published to npm as [`hpke`][npm] as a
+typescript/javascript package, and can also be custom built for
+specific wasm use cases (omitting unused algorithms) with
 [`wasm-pack`](https://github.com/rustwasm/wasm-pack)
+
+[npm]: https://www.npmjs.com/package/hpke
 
 ## Nightly-only feature to work around a wasm-bindgen bug: `cfg_eval`
 
