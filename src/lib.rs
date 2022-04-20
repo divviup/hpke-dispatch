@@ -92,11 +92,11 @@ only two of options listed in the hpke draft are available.
 pub enum Kem {
     /// DHKEM(P-256, HKDF-SHA256) [NISTCurves](https://doi.org/10.6028/nist.fips.186-4)
     #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
-    DhP256HkdfSha256 = 10,
+    DhP256HkdfSha256 = 16,
 
     /// DHKEM(X25519, HKDF-SHA256) [RFC7748](https://www.rfc-editor.org/info/rfc7748)
     #[cfg(feature = "kem-x25519-hkdf-sha256")]
-    X25519HkdfSha256 = 20,
+    X25519HkdfSha256 = 32,
 }
 
 /**
