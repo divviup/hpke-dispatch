@@ -2,7 +2,7 @@
 
 This crate provides a generic-free interface to the [`hpke`][hpke]
 crate, a rust implementation of the draft RFC9180 [hybrid public key
-encryption](https://www.ietf.org/archive/id/draft-irtf-cfrg-hpke-06.html)
+encryption](https://www.rfc-editor.org/rfc/rfc9180.html)
 scheme. If you know the specific (aead, kdf, kem) triple at compile
 time, you should use the [`hpke`][hpke] crate directly.
 
@@ -11,7 +11,7 @@ described in the hpke draft, and within base mode, only stateless
 single-shot message encryption/decryption, as defined in [RFC9180§6][section-6]
 
 [hpke]: https://github.com/rozbb/rust-hpke
-[section-6]: https://www.ietf.org/archive/id/draft-irtf-cfrg-hpke-06.html#section-6
+[section-6]: https://www.rfc-editor.org/rfc/rfc9180.html#section-6
 
 ## Web-assembly ready
 
