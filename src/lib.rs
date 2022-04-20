@@ -432,5 +432,5 @@ pub fn base_mode_open(
         Aead::ChaCha20Poly1305 => match_kdf!(hpke::aead::ChaCha20Poly1305, kdf, kem, open),
     };
 
-    open(private_key, ciphertext, encapped_key, info, aad)
+    open(private_key, encapped_key, ciphertext, info, aad)
 }
