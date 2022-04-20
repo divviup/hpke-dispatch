@@ -1,18 +1,23 @@
 # Hybrid public key encryption with algorithms dispatched at runtime
 
 This crate provides a generic-free interface to the [`hpke`][hpke]
-crate, a rust implementation of the draft [hybrid public key
+crate, a rust implementation of the draft RFC9180 [hybrid public key
 encryption](https://www.ietf.org/archive/id/draft-irtf-cfrg-hpke-06.html)
 scheme. If you know the specific (aead, kdf, kem) triple at compile
 time, you should use the [`hpke`][hpke] crate directly.
 
 Currently, this crate only exposes interfaces for the Base mode (0)
 described in the hpke draft, and within base mode, only stateless
-single-shot message encryption/decryption, as defined in [section
-6][section-6]
+single-shot message encryption/decryption, as defined in [RFC9180§6][section-6]
 
 [hpke]: https://github.com/rozbb/rust-hpke
 [section-6]: https://www.ietf.org/archive/id/draft-irtf-cfrg-hpke-06.html#section-6
+
+## Web-assembly ready
+
+This crate will also be published to npm as a typescript/javascript
+package, and can also be custom-built for specific wasm use-cases with
+[`wasm-pack`](https://github.com/rustwasm/wasm-pack)
 
 ## Nightly-only feature to work around a wasm-bindgen bug: `cfg_eval`
 

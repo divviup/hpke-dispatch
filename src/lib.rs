@@ -24,7 +24,7 @@ use wasm_bindgen::prelude::*;
 
 /**
 Aead represents an authenticated encryption with additional data
-encryption function, as per [§7.3](https://www.ietf.org/archive/id/draft-irtf-cfrg-hpke-06.html#section-7.3)
+encryption function, as per [RFC9180§7.3](https://www.ietf.org/archive/id/draft-irtf-cfrg-hpke-06.html#section-7.3)
 */
 #[non_exhaustive]
 #[repr(u16)]
@@ -50,7 +50,7 @@ pub enum Aead {
 
 /**
 Kdf represents an key derivation function, as per
-[§7.2](https://www.ietf.org/archive/id/draft-irtf-cfrg-hpke-06.html#section-7.2)
+[RFC9180§7.2](https://www.ietf.org/archive/id/draft-irtf-cfrg-hpke-06.html#section-7.2)
 */
 #[non_exhaustive]
 #[repr(u16)]
@@ -76,7 +76,7 @@ pub enum Kdf {
 
 /**
 Kem represents an asymmetric key encapsulation mechanism, as per
-[§7.1](https://www.ietf.org/archive/id/draft-irtf-cfrg-hpke-06.html#section-7.1). Currently
+[RFC9180§7.1](https://www.ietf.org/archive/id/draft-irtf-cfrg-hpke-06.html#section-7.1). Currently
 only two of options listed in the hpke draft are available.
 */
 #[non_exhaustive]
