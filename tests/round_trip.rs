@@ -13,7 +13,7 @@ fn test_round_trip(config: Config) {
         .into_parts();
 
     let plaintext = config
-        .base_mode_open(&private_key, &encapped_key, &ciphertext, APP_INFO, AAD)
+        .base_mode_open(&private_key, &encapped_key, APP_INFO, &ciphertext, AAD)
         .unwrap_or_else(|e| panic!("problem with {config:?} base_mode_open ({e:?})"));
 
     assert_eq!(

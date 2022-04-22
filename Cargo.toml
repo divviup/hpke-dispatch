@@ -54,4 +54,7 @@ crate-type = ["cdylib", "rlib"]
 lto = true
 
 [dev-dependencies]
+hex = { version = "0.4.3", features = ["serde"] }
+serde = { version = "1.0.136", features = ["derive"] }
+serde_json = "1.0.79"
 wasm-bindgen-test = "0.3.30"

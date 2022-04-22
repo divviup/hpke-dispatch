@@ -26,20 +26,20 @@ pub fn base_mode_open(
     config: &Config,
     private_key: &[u8],
     encapped_key: &[u8],
-    ciphertext: &[u8],
     info: &[u8],
+    ciphertext: &[u8],
     aad: &[u8],
 ) -> Result<Vec<u8>, HpkeError> {
     let Config { aead, kdf, kem } = *config;
     let open = match_algo!(aead, kdf, kem, open);
-    open(private_key, ciphertext, encapped_key, info, aad)
+    open(private_key, encapped_key, info, ciphertext, aad)
 }
 
 fn open<AeadT, KdfT, KemT>(
     private_key: &[u8],
-    ciphertext: &[u8],
     encapped_key: &[u8],
     info: &[u8],
+    ciphertext: &[u8],
     aad: &[u8],
 ) -> Result<Vec<u8>, HpkeError>
 where

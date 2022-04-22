@@ -26,18 +26,18 @@ This will return an `Result::Err` variant if:
 #[cfg(feature = "base-mode-seal")]
 pub fn base_mode_seal(
     config: &Config,
-    pk_recip: &[u8],
+    recipient_public_key: &[u8],
     info: &[u8],
     plaintext: &[u8],
     aad: &[u8],
 ) -> Result<EncappedKeyAndCiphertext, HpkeError> {
     let Config { aead, kdf, kem } = *config;
     let seal = match_algo!(aead, kdf, kem, seal);
-    seal(pk_recip, info, plaintext, aad)
+    seal(recipient_public_key, info, plaintext, aad)
 }
 
 fn seal<AeadT, KdfT, KemT>(
-    pk_recip: &[u8],
+    recipient_public_key: &[u8],
     info: &[u8],
     plaintext: &[u8],
     aad: &[u8],
@@ -49,7 +49,7 @@ where
 {
     let (encapped_key, ciphertext) = hpke::single_shot_seal::<AeadT, KdfT, KemT, _>(
         &hpke::OpModeS::Base,
-        &from_bytes(pk_recip)?,
+        &from_bytes(recipient_public_key)?,
         info,
         plaintext,
         aad,
