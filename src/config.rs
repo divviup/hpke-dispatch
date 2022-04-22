@@ -48,12 +48,12 @@ impl Config {
     #[cfg(feature = "base-mode-seal")]
     pub fn base_mode_seal(
         &self,
-        pk_recip: &[u8],
+        recipient_public_key: &[u8],
         info: &[u8],
         plaintext: &[u8],
         aad: &[u8],
     ) -> Result<EncappedKeyAndCiphertext, HpkeError> {
-        base_mode_seal(self, pk_recip, info, plaintext, aad)
+        base_mode_seal(self, recipient_public_key, info, plaintext, aad)
     }
 
     /**
@@ -77,12 +77,12 @@ impl Config {
     pub fn base_mode_open(
         &self,
         private_key: &[u8],
-        ciphertext: &[u8],
         encapped_key: &[u8],
         info: &[u8],
+        ciphertext: &[u8],
         aad: &[u8],
     ) -> Result<Vec<u8>, HpkeError> {
-        base_mode_open(self, private_key, ciphertext, encapped_key, info, aad)
+        base_mode_open(self, private_key, encapped_key, info, ciphertext, aad)
     }
 
     /// Attempt to convert three u16 ids into a valid config. The id mappings are defined in the draft.
