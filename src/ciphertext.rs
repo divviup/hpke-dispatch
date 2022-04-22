@@ -46,6 +46,7 @@ cfg_if::cfg_if! {
 
 impl EncappedKeyAndCiphertext {
     /// returns (encapsulated key, ciphertext)
+    #[must_use]
     pub fn into_parts(self) -> (Vec<u8>, Vec<u8>) {
         (self.encapped_key, self.ciphertext)
     }

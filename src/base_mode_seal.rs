@@ -32,33 +32,32 @@ pub fn base_mode_seal(
     aad: &[u8],
 ) -> Result<EncappedKeyAndCiphertext, HpkeError> {
     let Config { aead, kdf, kem } = *config;
-
-    fn seal<AeadT, KdfT, KemT>(
-        pk_recip: &[u8],
-        info: &[u8],
-        plaintext: &[u8],
-        aad: &[u8],
-    ) -> Result<EncappedKeyAndCiphertext, HpkeError>
-    where
-        AeadT: hpke::aead::Aead,
-        KdfT: hpke::kdf::Kdf,
-        KemT: hpke::kem::Kem,
-    {
-        let (encapped_key, ciphertext) = hpke::single_shot_seal::<AeadT, KdfT, KemT, _>(
-            &hpke::OpModeS::Base,
-            &from_bytes(pk_recip)?,
-            info,
-            plaintext,
-            aad,
-            &mut rand::thread_rng(),
-        )?;
-
-        Ok(EncappedKeyAndCiphertext {
-            encapped_key: encapped_key.to_bytes().to_vec(),
-            ciphertext,
-        })
-    }
-
     let seal = match_algo!(aead, kdf, kem, seal);
     seal(pk_recip, info, plaintext, aad)
+}
+
+fn seal<AeadT, KdfT, KemT>(
+    pk_recip: &[u8],
+    info: &[u8],
+    plaintext: &[u8],
+    aad: &[u8],
+) -> Result<EncappedKeyAndCiphertext, HpkeError>
+where
+    AeadT: hpke::aead::Aead,
+    KdfT: hpke::kdf::Kdf,
+    KemT: hpke::kem::Kem,
+{
+    let (encapped_key, ciphertext) = hpke::single_shot_seal::<AeadT, KdfT, KemT, _>(
+        &hpke::OpModeS::Base,
+        &from_bytes(pk_recip)?,
+        info,
+        plaintext,
+        aad,
+        &mut rand::thread_rng(),
+    )?;
+
+    Ok(EncappedKeyAndCiphertext {
+        encapped_key: encapped_key.to_bytes().to_vec(),
+        ciphertext,
+    })
 }

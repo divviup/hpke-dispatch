@@ -30,7 +30,7 @@ pub enum Aead {
 }
 
 /// An iterable slice of [`Aead`] variants
-pub const AEAD_ALL: &'static [Aead] = &[
+pub const AEAD_ALL: &[Aead] = &[
     #[cfg(feature = "aead-aes-gcm-128")]
     Aead::AesGcm128,
     #[cfg(feature = "aead-aes-gcm-256")]

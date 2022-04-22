@@ -31,30 +31,29 @@ pub fn base_mode_open(
     aad: &[u8],
 ) -> Result<Vec<u8>, HpkeError> {
     let Config { aead, kdf, kem } = *config;
-
-    fn open<AeadT, KdfT, KemT>(
-        private_key: &[u8],
-        ciphertext: &[u8],
-        encapped_key: &[u8],
-        info: &[u8],
-        aad: &[u8],
-    ) -> Result<Vec<u8>, HpkeError>
-    where
-        AeadT: hpke::aead::Aead,
-        KdfT: hpke::kdf::Kdf,
-        KemT: hpke::kem::Kem,
-    {
-        hpke::single_shot_open::<AeadT, KdfT, KemT>(
-            &hpke::OpModeR::Base,
-            &from_bytes(private_key)?,
-            &from_bytes(encapped_key)?,
-            info,
-            ciphertext,
-            aad,
-        )
-        .map_err(Into::into) // this is noop unless compiling for wasm.
-    }
-
     let open = match_algo!(aead, kdf, kem, open);
     open(private_key, ciphertext, encapped_key, info, aad)
+}
+
+fn open<AeadT, KdfT, KemT>(
+    private_key: &[u8],
+    ciphertext: &[u8],
+    encapped_key: &[u8],
+    info: &[u8],
+    aad: &[u8],
+) -> Result<Vec<u8>, HpkeError>
+where
+    AeadT: hpke::aead::Aead,
+    KdfT: hpke::kdf::Kdf,
+    KemT: hpke::kem::Kem,
+{
+    hpke::single_shot_open::<AeadT, KdfT, KemT>(
+        &hpke::OpModeR::Base,
+        &from_bytes(private_key)?,
+        &from_bytes(encapped_key)?,
+        info,
+        ciphertext,
+        aad,
+    )
+    .map_err(Into::into) // this is noop unless compiling for wasm.
 }

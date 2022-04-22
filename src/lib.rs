@@ -8,12 +8,8 @@
     nonstandard_style,
     unused_qualifications
 )]
-#![warn(missing_docs, clippy::pedantic, clippy::nursery, clippy::cargo)]
-#![allow(
-    clippy::must_use_candidate,
-    clippy::module_name_repetitions,
-    clippy::missing_errors_doc
-)]
+#![warn(missing_docs, clippy::cargo)]
+#![allow(clippy::missing_errors_doc, clippy::use_self)]
 #![doc = include_str!("../README.md")]
 
 use hpke::Deserializable;
@@ -46,6 +42,7 @@ mod kem;
 pub use kem::{Kem, KEM_ALL};
 
 mod macros;
+pub(crate) use macros::match_algo;
 
 /**
 A simple error type for failed id lookups

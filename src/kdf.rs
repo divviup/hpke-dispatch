@@ -3,16 +3,6 @@ use wasm_bindgen::prelude::*;
 
 use num_enum::TryFromPrimitive;
 
-/// An iterable slice of [`Kdf`] variants
-pub const KDF_ALL: &'static [Kdf] = &[
-    #[cfg(feature = "kdf-sha256")]
-    Kdf::Sha256,
-    #[cfg(feature = "kdf-sha384")]
-    Kdf::Sha384,
-    #[cfg(feature = "kdf-sha512")]
-    Kdf::Sha512,
-];
-
 /**
 Kdf represents an key derivation function, as per
 [RFC9180§7.2](https://www.rfc-editor.org/rfc/rfc9180.html#section-7.2)
@@ -38,3 +28,13 @@ pub enum Kdf {
     /// Sha512 [RFC5869](https://www.rfc-editor.org/info/rfc5869)
     Sha512 = 3,
 }
+
+/// An iterable slice of [`Kdf`] variants
+pub const KDF_ALL: &[Kdf] = &[
+    #[cfg(feature = "kdf-sha256")]
+    Kdf::Sha256,
+    #[cfg(feature = "kdf-sha384")]
+    Kdf::Sha384,
+    #[cfg(feature = "kdf-sha512")]
+    Kdf::Sha512,
+];

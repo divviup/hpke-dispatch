@@ -1,12 +1,15 @@
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
 
+use crate::Keypair;
 use num_enum::TryFromPrimitive;
 
 /**
 Kem represents an asymmetric key encapsulation mechanism, as per
-[RFC9180§7.1](https://www.rfc-editor.org/rfc/rfc9180.html#section-7.1). Currently
-only two of options listed in the hpke draft are available.
+[RFC9180§7.1][section-7.1]. Currently only two of options listed in
+the hpke draft are available.
+
+[section-7.1]: https://www.rfc-editor.org/rfc/rfc9180.html#section-7.1
 */
 #[non_exhaustive]
 #[repr(u16)]
@@ -30,13 +33,14 @@ pub enum Kem {
 
 impl Kem {
     /// generate a [`Keypair`] for this [`Config`] or [`Kem`].
-    pub fn gen_keypair(self) -> crate::Keypair {
+    #[must_use]
+    pub fn gen_keypair(self) -> Keypair {
         crate::gen_keypair(self)
     }
 }
 
 /// An iterable slice of [`Kem`] variants
-pub const KEM_ALL: &'static [Kem] = &[
+pub const KEM_ALL: &[Kem] = &[
     #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
     Kem::DhP256HkdfSha256,
     #[cfg(feature = "kem-x25519-hkdf-sha256")]
