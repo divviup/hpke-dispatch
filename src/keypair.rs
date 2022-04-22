@@ -15,7 +15,7 @@ cfg_if::cfg_if! {
         }
     } else {
         /// An encoded keypair
-        #[derive(Debug, Clone, Eq, PartialEq)]
+        #[derive(Debug, Clone, Eq, PartialEq, zeroize::Zeroize)]
         pub struct Keypair {
             /// the public key for this keypair
             pub public_key: Vec<u8>,
