@@ -13,14 +13,17 @@ single-shot message encryption/decryption, as defined in [RFC9180§6][section-6]
 [hpke]: https://github.com/rozbb/rust-hpke
 [section-6]: https://www.rfc-editor.org/rfc/rfc9180.html#section-6
 
-## Web-assembly ready
+## WebAssembly ready
 
 This crate is also published to npm as [`hpke`][npm] as a
 typescript/javascript package, and can also be custom built for
 specific wasm use cases (omitting unused algorithms) with
-[`wasm-pack`](https://github.com/rustwasm/wasm-pack)
+[`wasm-pack`][wasm-pack]. For an example of using the library from
+node, see [examples/example.ts][example-ts]
 
 [npm]: https://www.npmjs.com/package/hpke
+[wasm-pack]: https://github.com/rustwasm/wasm-pack
+[example-ts]: https://github.com/jbr/hpke-dispatch/blob/main/examples/example.ts
 
 ## Nightly-only feature to work around a wasm-bindgen bug: `cfg_eval`
 
