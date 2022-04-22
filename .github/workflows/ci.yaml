@@ -69,3 +69,5 @@ jobs:
       run: cargo install wasm-pack
     - name: build with default features
       run: wasm-pack build
+    - name: node test
+      run: wasm-pack test --node

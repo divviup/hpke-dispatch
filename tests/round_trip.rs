@@ -1,4 +1,3 @@
-wasm_bindgen_test::wasm_bindgen_test_configure!(run_in_browser);
 use hpke_dispatch::*;
 
 const AAD: &[u8] = b"associated data";
