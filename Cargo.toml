@@ -1,10 +1,10 @@
 [package]
 name = "hpke-dispatch"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 description = "runtime algorithmic selection for hybrid public key encryption"
-license = "MIT OR Apache-2.0"
-repository = "https://github.com/jbr/hpke-dispatch"
+license = "MPL-2.0"
+repository = "https://github.com/divviup/hpke-dispatch"
 readme = "./README.md"
 keywords = ["hpke", "encryption"]
 categories = ["cryptography"]
