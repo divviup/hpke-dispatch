@@ -1,6 +1,6 @@
 [package]
 name = "hpke-dispatch"
-version = "0.2.1"
+version = "0.3.0"
 edition = "2021"
 description = "runtime algorithmic selection for hybrid public key encryption"
 license = "MPL-2.0"
@@ -16,7 +16,7 @@ base-mode-seal = []
 wee-alloc = []
 serde = ["serde_crate"]
 algo-all = ["aead-all", "kdf-all", "kem-all"]
-default = ["algo-all", "base-mode-seal", "base-mode-open"]
+default = ["algo-all", "base-mode-seal", "base-mode-open", "hpke/std"]
 aead-all = ["aead-aes-gcm-128", "aead-aes-gcm-256", "aead-chacha-20-poly-1305"]
 aead-aes-gcm-128 = []
 aead-aes-gcm-256 = []
