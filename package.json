@@ -15,7 +15,7 @@
     "build:browser": "run-s build:browser:wasm build:browser:ts",
     "build:node": "run-s build:node:wasm build:node:ts",
     "build": "run-s build:node build:browser",
-    "test": "ts-mocha tests/*.ts",
+    "test": "ts-mocha --type-check -p ./tsconfig.json tests/*.ts",
     "lint": "eslint src --ext .ts && prettier -c src"
   },
   "browser": "./pkg/web/index.mjs",
@@ -33,6 +33,7 @@
     "@tsconfig/node18": "^1.0.1",
     "@types/chai": "^4.3.1",
     "@types/mocha": "^9.1.1",
+    "@types/node": "^18.0.4",
     "@typescript-eslint/eslint-plugin": "^5.30.6",
     "@typescript-eslint/parser": "^5.30.6",
     "chai": "^4.3.6",
