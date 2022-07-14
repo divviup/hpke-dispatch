@@ -15,7 +15,8 @@
     "build:browser": "run-s build:browser:wasm build:browser:ts",
     "build:node": "run-s build:node:wasm build:node:ts",
     "build": "run-s build:node build:browser",
-    "test": "ts-mocha tests/*.ts"
+    "test": "ts-mocha tests/*.ts",
+    "lint": "eslint src --ext .ts && prettier -c src"
   },
   "browser": "./pkg/web/index.mjs",
   "main": "./pkg/node/hpke_dispatch.js",
@@ -32,10 +33,18 @@
     "@tsconfig/node18": "^1.0.0",
     "@types/chai": "^4.3.1",
     "@types/mocha": "^9.1.1",
+    "@typescript-eslint/eslint-plugin": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.5",
     "chai": "^4.3.6",
     "esbuild": "^0.14.49",
+    "eslint": "^8.19.0",
+    "eslint-config-prettier": "^8.5.0",
     "mocha": "^10.0.0",
     "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4",
+    "typescript-eslint": "^0.0.1-alpha.0",
+    "typescript-eslint-language-service": "^5.0.0",
     "wasm-pack": "^0.10.3"
   }
 }
