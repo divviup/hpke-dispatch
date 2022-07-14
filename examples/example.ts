@@ -1,4 +1,4 @@
-import { Keypair, Aead, Kdf, Kem, Config } from "hpke";
+import { Keypair, Aead, Kdf, Kem, Config } from "../dist/hpke";
 
 let config = Config.try_from_ids(
   Aead.AesGcm128,
