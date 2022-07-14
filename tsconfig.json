@@ -8,6 +8,7 @@
     "esModuleInterop": true,
     "declaration": true,
     "rootDir": "src",
+    "types": ["node", "mocha"],
     "outDir": "dist",
     "plugins": [
       {
@@ -19,5 +20,5 @@
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   },
-  "include": ["./src/*.ts"]
+  "include": ["./src/*.ts", "./tests/*.ts"]
 }
