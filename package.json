@@ -19,7 +19,7 @@
     "lint": "eslint src --ext .ts && prettier -c src"
   },
   "browser": "./pkg/web/index.mjs",
-  "main": "./pkg/node/hpke_dispatch.js",
+  "main": "./pkg/node/index.js",
   "types": "./pkg/node/hpke_dispatch.d.ts",
   "files": [
     "pkg/*"
