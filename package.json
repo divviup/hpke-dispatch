@@ -21,7 +21,7 @@
   "main": "./pkg/node/index.js",
   "types": "./pkg/node/hpke_dispatch.d.ts",
   "files": [
-    "pkg/*"
+    "pkg/node/*", "pkg/web/*"
   ],
   "sideEffects": false,
   "keywords": [
