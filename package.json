@@ -8,15 +8,14 @@
     "url": "https://github.com/divviup/hpke-dispatch"
   },
   "scripts": {
-    "build:browser:wasm": "wasm-pack build -t web --release --out-dir ./pkg/web",
-    "build:node:wasm": "wasm-pack build -t nodejs --release --out-dir ./pkg/node",
-    "build:browser:ts": "esbuild index=src/web.ts --bundle --outdir=./pkg/web --loader:.wasm=binary --minify --sourcemap --format=esm --out-extension:.js=.mjs",
-    "build:node:ts": "esbuild index=src/node.ts --outdir=./pkg/node --sourcemap --loader:.wasm=binary --format=cjs",
+    "build:browser:wasm": "wasm-pack build -t web --release --out-dir pkg/web",
+    "build:node:wasm": "wasm-pack build -t nodejs --release --out-dir pkg/node",
+    "build:browser:ts": "esbuild pkg/web/index.ts --bundle --outdir=pkg/web --loader:.wasm=binary --minify --sourcemap --format=esm --out-extension:.js=.mjs",
+    "build:node:ts": "esbuild pkg/node/index.ts pkg/node/index.spec.ts --outdir=pkg/node --sourcemap --loader:.wasm=binary --format=cjs",
     "build:browser": "run-s build:browser:wasm build:browser:ts",
     "build:node": "run-s build:node:wasm build:node:ts",
     "build": "run-s build:node build:browser",
-    "test": "ts-mocha --type-check -p ./tsconfig.json tests/*.ts",
-    "lint": "eslint src --ext .ts && prettier -c src"
+    "test": "mocha pkg/node/index.spec.js"
   },
   "browser": "./pkg/web/index.mjs",
   "main": "./pkg/node/index.js",
@@ -34,19 +33,12 @@
     "@types/chai": "^4.3.1",
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.0.4",
-    "@typescript-eslint/eslint-plugin": "^5.30.6",
-    "@typescript-eslint/parser": "^5.30.6",
     "chai": "^4.3.6",
     "esbuild": "^0.14.49",
-    "eslint": "^8.19.0",
-    "eslint-config-prettier": "^8.5.0",
     "mocha": "^10.0.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
-    "ts-mocha": "^10.0.0",
     "typescript": "^4.7.4",
-    "typescript-eslint": "^0.0.1-alpha.0",
-    "typescript-eslint-language-service": "^5.0.0",
     "wasm-pack": "^0.10.3"
   }
 }
