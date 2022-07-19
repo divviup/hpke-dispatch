@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { Keypair, Aead, Kdf, Kem, Config } from "..";
+import { Keypair, Aead, Kdf, Kem, Config } from ".";
 import { TextEncoder, TextDecoder } from "util";
 
 describe("HPKE", () => {
