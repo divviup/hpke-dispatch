@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Hybrid public key encryption with algorithms dispatched at runtime"><meta name="keywords" content="rust, rustlang, rust-lang, hpke_dispatch"><title>hpke_dispatch - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../dark.css" disabled><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script src="../crates.js"></script><script defer src="../main.js"></script>
+    <noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../hpke_dispatch/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../hpke_dispatch/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"><a href="#">Crate hpke_dispatch</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.3.0</li><li><a id="all-types" href="all.html">All Items</a></li></div></ul><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#functions">Functions</a></li></ul></div></section><div id="sidebar-vars" data-name="hpke_dispatch" data-ty="mod" data-relpath=""></div><script defer src="sidebar-items.js"></script></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../hpke_dispatch/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
+    <h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">hpke_dispatch</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/hpke_dispatch/lib.rs.html#1-89">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="hybrid-public-key-encryption-with-algorithms-dispatched-at-runtime"><a href="#hybrid-public-key-encryption-with-algorithms-dispatched-at-runtime">Hybrid public key encryption with algorithms dispatched at runtime</a></h2>
+<p>This crate provides a generic-free interface to the <a href="https://github.com/rozbb/rust-hpke"><code>hpke</code></a>
+crate, a rust implementation of the draft RFC9180 <a href="https://www.rfc-editor.org/rfc/rfc9180.html">hybrid public key
+encryption</a>
+scheme. If you know the specific (aead, kdf, kem) triple at compile
+time, you should use the <a href="https://github.com/rozbb/rust-hpke"><code>hpke</code></a> crate directly.</p>
+<p>Currently, this crate only exposes interfaces for the Base mode (0)
+described in the hpke draft, and within base mode, only stateless
+single-shot message encryption/decryption, as defined in <a href="https://www.rfc-editor.org/rfc/rfc9180.html#section-6">RFC9180§6</a></p>
+<h3 id="webassembly-ready"><a href="#webassembly-ready">WebAssembly ready</a></h3>
+<p>This crate is also published to npm as <a href="https://www.npmjs.com/package/hpke"><code>hpke</code></a> as a
+typescript/javascript package, and can also be custom built for
+specific wasm use cases (omitting unused algorithms) with
+<a href="https://github.com/rustwasm/wasm-pack"><code>wasm-pack</code></a>. For an example of using the library from
+node, see <a href="https://github.com/jbr/hpke-dispatch/blob/main/examples/example.ts">examples/example.ts</a></p>
+<h3 id="nightly-only-feature-to-work-around-a-wasm-bindgen-bug-cfg_eval"><a href="#nightly-only-feature-to-work-around-a-wasm-bindgen-bug-cfg_eval">Nightly-only feature to work around a wasm-bindgen bug: <code>cfg_eval</code></a></h3>
+<p>In order to opt out of <code>algo-all</code> for a wasm build, you must use
+nightly and enable the <code>cfg_eval</code> cargo feature. This is due to
+<a href="https://github.com/rustwasm/wasm-bindgen/issues/2058">wasm-bindgen#2058</a>. This is not necessary for use
+from rust, even when opting out of <code>algo-all</code>.</p>
+<h3 id="available-cargo-features"><a href="#available-cargo-features">Available cargo features:</a></h3>
+<ul>
+<li>
+<p><em><code>cfg_eval</code></em>: allows this crate to be built on nightly rust for wasm
+without <code>algo-all</code>. Note that <code>algo-all</code> (all
+algorithms) will build for wasm on any channel without this feature.
+disabled by default. Attempting to build for wasm with a subset.</p>
+</li>
+<li>
+<p><em>base-mode-open</em>: Enables hpke base-mode one-shot open behavior
+(receiver functionality). Enabled by default.</p>
+</li>
+<li>
+<p><em>base-mode-seal</em>: Enables hpke base-mode one-shot seal behavior
+(sender functionality). Enabled by default.</p>
+</li>
+<li>
+<p><em>algo-all</em>: enables all aead, kdf, and kem algorithms. enabled by
+default.</p>
+</li>
+<li>
+<p><em>aead-all</em>: Enables <code>aead-aes-gcm-128</code>, <code>aead-aes-gcm-256</code>, and
+<code>aead-chacha-20-poly-1305</code> algorithm features. Enabled by default.</p>
+</li>
+<li>
+<p><em>kdf-all</em>: Enables <code>kdf-sha256</code>, <code>kdf-sha384</code>, <code>kdf-sha512</code>
+algorithm features. Enabled by default.</p>
+</li>
+<li>
+<p><em>kem-all</em>: Enables both <code>kem-dh-p256-hkdf-sha256</code> and
+<code>kem-x25519-hkdf-sha256</code> algorithm features. Enabled by default.</p>
+</li>
+<li>
+<p><em>serde</em>: enables derived serde serialization and deserialization for
+all public structs and enums. Disabled by default.</p>
+</li>
+</ul>
+<h3 id="example-feature-usage"><a href="#example-feature-usage">Example feature usage:</a></h3>
+<p>To depend on this crate from rust with all algorithms,
+<code>base-mode-open</code>, and <code>base-mode-seal</code>, use default features.</p>
+<p>To depend on this crate from rust with all algorithms and serde
+enabled, but without <code>base-mode-seal</code>: <code>default-features = false, features = [&quot;algo-all&quot;, &quot;base-mode-open&quot;, &quot;serde&quot;]</code></p>
+<p>To build for wasm without <code>kem-x25519-hkdf-sha256</code> or
+<code>base-mode-open</code>: <code>wasm-pack build --no-default-features --features aead-all,kdf-all,kem-dh-p256-hkdf-sha256,base-mode-seal,cfg_eval</code></p>
+<p>To build for wasm with all algorithms but without base-mode-open:
+<code>wasm-pack build --no-default-features --features algo-all,base-mode-seal</code></p>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Config.html" title="hpke_dispatch::Config struct">Config</a></div><div class="item-right docblock-short"><p>Config is an open struct that contains an (<a href="enum.Aead.html" title="Aead"><code>Aead</code></a>, <a href="enum.Kdf.html" title="Kdf"><code>Kdf</code></a>, <a href="enum.Kem.html" title="Kem"><code>Kem</code></a>)
+algorithmic triple. This can be used with <a href="struct.Config.html#method.base_mode_seal" title="Config::base_mode_seal"><code>Config::base_mode_seal</code></a>,
+<a href="struct.Config.html#method.base_mode_open" title="Config::base_mode_open"><code>Config::base_mode_open</code></a>, [<code>base_mode_seal</code>], or [<code>base_mode_open</code>].</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.EncappedKeyAndCiphertext.html" title="hpke_dispatch::EncappedKeyAndCiphertext struct">EncappedKeyAndCiphertext</a></div><div class="item-right docblock-short"><p>a simple struct to return the combined encapsulated key
+and ciphertext from seal</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.IdLookupError.html" title="hpke_dispatch::IdLookupError struct">IdLookupError</a></div><div class="item-right docblock-short"><p>A simple error type for failed id lookups</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Keypair.html" title="hpke_dispatch::Keypair struct">Keypair</a></div><div class="item-right docblock-short"><p>An encoded keypair</p>
+</div></div></div><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Aead.html" title="hpke_dispatch::Aead enum">Aead</a></div><div class="item-right docblock-short"><p>Aead represents an authenticated encryption with additional data
+encryption function, as per <a href="https://www.rfc-editor.org/rfc/rfc9180.html#section-7.3">RFC9180§7.3</a></p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.HpkeError.html" title="hpke_dispatch::HpkeError enum">HpkeError</a></div><div class="item-right docblock-short"><p>Describes things that can go wrong in the HPKE protocol</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Kdf.html" title="hpke_dispatch::Kdf enum">Kdf</a></div><div class="item-right docblock-short"><p>Kdf represents an key derivation function, as per
+<a href="https://www.rfc-editor.org/rfc/rfc9180.html#section-7.2">RFC9180§7.2</a></p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Kem.html" title="hpke_dispatch::Kem enum">Kem</a></div><div class="item-right docblock-short"><p>Kem represents an asymmetric key encapsulation mechanism, as per
+<a href="https://www.rfc-editor.org/rfc/rfc9180.html#section-7.1">RFC9180§7.1</a>. Currently only two of options listed in
+the hpke draft are available.</p>
+</div></div></div><h2 id="constants" class="small-section-header"><a href="#constants">Constants</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.AEAD_ALL.html" title="hpke_dispatch::AEAD_ALL constant">AEAD_ALL</a></div><div class="item-right docblock-short"><p>An iterable slice of <a href="enum.Aead.html" title="Aead"><code>Aead</code></a> variants</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.KDF_ALL.html" title="hpke_dispatch::KDF_ALL constant">KDF_ALL</a></div><div class="item-right docblock-short"><p>An iterable slice of <a href="enum.Kdf.html" title="Kdf"><code>Kdf</code></a> variants</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.KEM_ALL.html" title="hpke_dispatch::KEM_ALL constant">KEM_ALL</a></div><div class="item-right docblock-short"><p>An iterable slice of <a href="enum.Kem.html" title="Kem"><code>Kem</code></a> variants</p>
+</div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.base_mode_open.html" title="hpke_dispatch::base_mode_open fn">base_mode_open</a></div><div class="item-right docblock-short"><p><code>base_mode_open</code> provides an interface to <a href="../hpke/single_shot/fn.single_shot_open.html" title="hpke::single_shot_open"><code>hpke::single_shot_open</code></a>
+that does not require compile time selection of an algorithm. Instead,
+the selected algorithm is provided through the <a href="struct.Config.html" title="Config"><code>Config</code></a> passed as
+the first argument.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.base_mode_seal.html" title="hpke_dispatch::base_mode_seal fn">base_mode_seal</a></div><div class="item-right docblock-short"><p><code>base_mode_seal</code> provides an interface to <a href="../hpke/single_shot/fn.single_shot_seal.html" title="hpke::single_shot_seal"><code>hpke::single_shot_seal</code></a>
+that does not require compile time selection of an
+algorithm. Instead, the selected algorithm is provided through the
+<a href="struct.Config.html" title="Config"><code>Config</code></a> passed as the first argument.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.gen_keypair.html" title="hpke_dispatch::gen_keypair fn">gen_keypair</a></div><div class="item-right docblock-short"><p>generate a Keypair for the provided asymmetric key encapsulation mechanism (<a href="enum.Kem.html" title="Kem"><code>Kem</code></a>)</p>
+</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="hpke_dispatch" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.1 (e092d0b6b 2022-07-16)" ></div>
+</body></html>
