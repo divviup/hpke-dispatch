@@ -16,7 +16,7 @@ base-mode-seal = []
 wee-alloc = []
 serde = ["serde_crate"]
 algo-all = ["aead-all", "kdf-all", "kem-all"]
-default = ["algo-all", "base-mode-seal", "base-mode-open", "hpke/std"]
+default = ["algo-all", "base-mode-seal", "base-mode-open"]
 aead-all = ["aead-aes-gcm-128", "aead-aes-gcm-256", "aead-chacha-20-poly-1305"]
 aead-aes-gcm-128 = []
 aead-aes-gcm-256 = []
@@ -33,7 +33,7 @@ kem-x25519-hkdf-sha256 = ["hpke/x25519"]
 rand = "0.8.5"
 num_enum = "0.5.7"
 cfg-if = "1.0.0"
-hpke = { version = "0.9.0", default-features = false }
+hpke = { version = "0.9.0", default-features = false, features = ["std"] }
 zeroize = "1.3"
 
 [dependencies.serde_crate]
