@@ -18,7 +18,7 @@ jobs:
         os: [ubuntu-latest, macOS-latest, windows-latest]
         rust: [stable, nightly]
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v3
     - name: Install ${{ matrix.rust }}
       uses: actions-rs/toolchain@v1
       with:
@@ -38,7 +38,7 @@ jobs:
     name: Lints and Docs
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v3
     - uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
@@ -61,7 +61,7 @@ jobs:
     name: Wasm stuff
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v3
     - uses: actions-rs/toolchain@v1
       with:
         toolchain: nightly
