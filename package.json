@@ -18,7 +18,7 @@
     "test": "mocha pkg/node/index.spec.js"
   },
   "browser": "./pkg/web/index.mjs",
-  "main": "./pkg/node/index.js",
+  "main": "./pkg/node/hpke_dispatch.js",
   "types": "./pkg/node/hpke_dispatch.d.ts",
   "files": [
     "pkg/node/*", "pkg/web/*"
