@@ -79,10 +79,6 @@ cfg_if::cfg_if! {
                 Self(h)
             }
         }
-
-        #[cfg_attr(feature = "wee-alloc", global_allocator)]
-        #[cfg(feature = "wee-alloc")]
-        static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
     } else {
         pub use hpke::HpkeError;
     }
