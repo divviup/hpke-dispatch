@@ -35,16 +35,13 @@ impl FromStr for Aead {
     type Err = IdLookupError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match &*s.to_lowercase() {
+        match &*s.to_lowercase().replace('-', "") {
             #[cfg(feature = "aead-aes-gcm-128")]
-            "aesgcm128" | "aes-gcm-128" | "aes-128-gcm" => Ok(Self::AesGcm128),
+            "aesgcm128" | "aes128gcm" => Ok(Self::AesGcm128),
             #[cfg(feature = "aead-aes-gcm-256")]
-            "aesgcm256" | "aes-gcm-256" | "aes-256-gcm" => Ok(Self::AesGcm256),
+            "aesgcm256" | "aes256gcm" => Ok(Self::AesGcm256),
             #[cfg(feature = "aead-chacha-20-poly-1305")]
-            "chacha20poly1305"
-            | "chacha-20-poly-1305"
-            | "cha-cha-20-poly-1305"
-            | "chacha20-poly1305" => Ok(Self::ChaCha20Poly1305),
+            "chacha20poly1305" => Ok(Self::ChaCha20Poly1305),
             _ => Err(IdLookupError("aead not recognized")),
         }
     }

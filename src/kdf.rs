@@ -35,13 +35,13 @@ impl FromStr for Kdf {
     type Err = IdLookupError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match &*s.to_lowercase() {
+        match &*s.to_lowercase().replace('-', "") {
             #[cfg(feature = "kdf-sha256")]
-            "sha256" | "sha-256" => Ok(Self::Sha256),
+            "hkdfsha256" | "sha256" => Ok(Self::Sha256),
             #[cfg(feature = "kdf-sha384")]
-            "sha384" | "sha-384" => Ok(Self::Sha384),
+            "hkdfsha384" | "sha384" => Ok(Self::Sha384),
             #[cfg(feature = "kdf-sha512")]
-            "sha512" | "sha-512" => Ok(Self::Sha512),
+            "hkdfsha512" | "sha512" => Ok(Self::Sha512),
             _ => Err(IdLookupError("kdf not recognized")),
         }
     }

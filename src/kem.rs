@@ -36,15 +36,11 @@ impl FromStr for Kem {
     type Err = IdLookupError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match &*s.to_lowercase() {
+        match &*s.to_lowercase().replace('-', "") {
             #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
-            "dhp256hkdfsha256" | "dh-p256-hkdf-sha256" | "dhkem(p-256, hkdf-sha256)" => {
-                Ok(Self::DhP256HkdfSha256)
-            }
+            "dhp256hkdfsha256" | "dhkem(p256, hkdfsha256)" => Ok(Self::DhP256HkdfSha256),
             #[cfg(feature = "kem-x25519-hkdf-sha256")]
-            "x25519hkdfsha256" | "x25519-hkdf-sha256" | "dhkem(x25519, hkdf-sha256)" => {
-                Ok(Self::X25519HkdfSha256)
-            }
+            "x25519hkdfsha256" | "dhkem(x25519, hkdfsha256)" => Ok(Self::X25519HkdfSha256),
             _ => Err(IdLookupError("kem not recognized")),
         }
     }
