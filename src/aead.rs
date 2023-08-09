@@ -1,7 +1,9 @@
+use crate::IdLookupError;
+use num_enum::TryFromPrimitive;
+use std::str::FromStr;
+
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
-
-use num_enum::TryFromPrimitive;
 
 /**
 Aead represents an authenticated encryption with additional data
@@ -27,6 +29,25 @@ pub enum Aead {
     #[cfg(feature = "aead-chacha-20-poly-1305")]
     /// ChaCha20Poly1305 [RFC8439](https://www.rfc-editor.org/info/rfc8439)
     ChaCha20Poly1305 = 3,
+}
+
+impl FromStr for Aead {
+    type Err = IdLookupError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match &*s.to_lowercase() {
+            #[cfg(feature = "aead-aes-gcm-128")]
+            "aesgcm128" | "aes-gcm-128" | "aes-128-gcm" => Ok(Self::AesGcm128),
+            #[cfg(feature = "aead-aes-gcm-256")]
+            "aesgcm256" | "aes-gcm-256" | "aes-256-gcm" => Ok(Self::AesGcm256),
+            #[cfg(feature = "aead-chacha-20-poly-1305")]
+            "chacha20poly1305"
+            | "chacha-20-poly-1305"
+            | "cha-cha-20-poly-1305"
+            | "chacha20-poly1305" => Ok(Self::ChaCha20Poly1305),
+            _ => Err(IdLookupError("aead not recognized")),
+        }
+    }
 }
 
 /// An iterable slice of [`Aead`] variants

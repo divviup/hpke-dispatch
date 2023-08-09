@@ -1,8 +1,9 @@
+use crate::{IdLookupError, Keypair};
+use num_enum::TryFromPrimitive;
+use std::str::FromStr;
+
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
-
-use crate::Keypair;
-use num_enum::TryFromPrimitive;
 
 /**
 Kem represents an asymmetric key encapsulation mechanism, as per
@@ -29,6 +30,24 @@ pub enum Kem {
     /// DHKEM(X25519, HKDF-SHA256) [RFC7748](https://www.rfc-editor.org/info/rfc7748)
     #[cfg(feature = "kem-x25519-hkdf-sha256")]
     X25519HkdfSha256 = 32,
+}
+
+impl FromStr for Kem {
+    type Err = IdLookupError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match &*s.to_lowercase() {
+            #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
+            "dhp256hkdfsha256" | "dh-p256-hkdf-sha256" | "dhkem(p-256, hkdf-sha256)" => {
+                Ok(Self::DhP256HkdfSha256)
+            }
+            #[cfg(feature = "kem-x25519-hkdf-sha256")]
+            "x25519hkdfsha256" | "x25519-hkdf-sha256" | "dhkem(x25519, hkdf-sha256)" => {
+                Ok(Self::X25519HkdfSha256)
+            }
+            _ => Err(IdLookupError("kem not recognized")),
+        }
+    }
 }
 
 impl Kem {
