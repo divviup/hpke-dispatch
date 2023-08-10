@@ -38,9 +38,14 @@ impl FromStr for Kem {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match &*s.to_lowercase().replace('-', "") {
             #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
-            "dhp256hkdfsha256" | "dhkem(p256, hkdfsha256)" => Ok(Self::DhP256HkdfSha256),
+            "p256sha256" | "dhkemp256hkdfsha256" | "p256hkdfsha256" | "dhkem(p256, hkdfsha256)" => {
+                Ok(Self::DhP256HkdfSha256)
+            }
             #[cfg(feature = "kem-x25519-hkdf-sha256")]
-            "x25519hkdfsha256" | "dhkem(x25519, hkdfsha256)" => Ok(Self::X25519HkdfSha256),
+            "x25519sha256"
+            | "dhkemx25519hkdfsha256"
+            | "x25519hkdfsha256"
+            | "dhkem(x25519, hkdfsha256)" => Ok(Self::X25519HkdfSha256),
             _ => Err(IdLookupError("kem not recognized")),
         }
     }
