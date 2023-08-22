@@ -1,7 +1,7 @@
 {
   "name": "hpke",
   "description": "hybrid public key encryption",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
@@ -19,15 +19,9 @@
   "browser": "./pkg/web/index.mjs",
   "main": "./pkg/node/hpke_dispatch.js",
   "types": "./pkg/node/hpke_dispatch.d.ts",
-  "files": [
-    "pkg/node/*",
-    "pkg/web/*"
-  ],
+  "files": ["pkg/node/*", "pkg/web/*"],
   "sideEffects": false,
-  "keywords": [
-    "hpke",
-    "encryption"
-  ],
+  "keywords": ["hpke", "encryption"],
   "devDependencies": {
     "@tsconfig/node18": "^1.0.1",
     "@types/chai": "^4.3.1",
