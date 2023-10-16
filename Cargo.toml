@@ -32,7 +32,7 @@ kem-x25519-hkdf-sha256 = ["hpke/x25519"]
 rand = "0.8.5"
 num_enum = "0.7.0"
 cfg-if = "1.0.0"
-hpke = { version = "0.10.0", default-features = false, features = ["std"] }
+hpke = { version = "0.11.0", default-features = false, features = ["std"] }
 zeroize = "1.6"
 
 [dependencies.serde_crate]
