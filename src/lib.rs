@@ -79,6 +79,12 @@ cfg_if::cfg_if! {
                 Self(h)
             }
         }
+
+        impl core::fmt::Display for HpkeError {
+            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+               core::fmt::Display::fmt(&self.0, f)
+            }
+        }
     } else {
         pub use hpke::HpkeError;
     }
