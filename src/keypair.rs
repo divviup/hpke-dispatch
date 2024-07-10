@@ -40,6 +40,12 @@ pub fn gen_keypair(kem: Kem) -> Keypair {
         #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
         Kem::DhP256HkdfSha256 => gen_kp::<hpke::kem::DhP256HkdfSha256>(),
 
+        #[cfg(feature = "kem-dh-p384-hkdf-sha384")]
+        Kem::DhP384HkdfSha384 => gen_kp::<hpke::kem::DhP384HkdfSha384>(),
+
+        #[cfg(feature = "kem-dh-p521-hkdf-sha512")]
+        Kem::DhP521HkdfSha512 => gen_kp::<hpke::kem::DhP521HkdfSha512>(),
+
         #[cfg(feature = "kem-x25519-hkdf-sha256")]
         Kem::X25519HkdfSha256 => gen_kp::<hpke::kem::X25519HkdfSha256>(),
     }
