@@ -33,6 +33,10 @@ macro_rules! match_algo {
         match $kem {
             #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
             $crate::Kem::DhP256HkdfSha256 => $fn::<$aead, $kdf, hpke::kem::DhP256HkdfSha256>,
+            #[cfg(feature = "kem-dh-p384-hkdf-sha384")]
+            $crate::Kem::DhP384HkdfSha384 => $fn::<$aead, $kdf, hpke::kem::DhP384HkdfSha384>,
+            #[cfg(feature = "kem-dh-p521-hkdf-sha512")]
+            $crate::Kem::DhP521HkdfSha512 => $fn::<$aead, $kdf, hpke::kem::DhP521HkdfSha512>,
             #[cfg(feature = "kem-x25519-hkdf-sha256")]
             $crate::Kem::X25519HkdfSha256 => $fn::<$aead, $kdf, hpke::kem::X25519HkdfSha256>,
         }
