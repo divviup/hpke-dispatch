@@ -58,8 +58,8 @@ from rust, even when opting out of `algo-all`.
   algorithm features. Enabled by default.
 
 * *kem-all*: Enables `kem-dh-p256-hkdf-sha256`,
- `kem-dh-p384-hkdf-sha384`, `kem-dh-p521-hkdf-sha512`, and
- `kem-x25519-hkdf-sha256` algorithm features. Enabled by default.
+  `kem-dh-p384-hkdf-sha384`, `kem-dh-p521-hkdf-sha512`, and
+  `kem-x25519-hkdf-sha256` algorithm features. Enabled by default.
 
 * *serde*: enables derived serde serialization and deserialization for
   all public structs and enums. Disabled by default.
