@@ -63,7 +63,14 @@ impl std::fmt::Display for IdLookupError {
 impl std::error::Error for IdLookupError {}
 
 pub(crate) fn from_bytes<T: Deserializable>(encoded: &[u8]) -> Result<T, HpkeError> {
-    T::from_bytes(encoded).map_err(Into::into)
+    let result = T::from_bytes(encoded);
+    cfg_if::cfg_if! {
+        if #[cfg(target_arch = "wasm32")] {
+            result.map_err(Into::into)
+        } else {
+            result
+        }
+    }
 }
 
 cfg_if::cfg_if! {
