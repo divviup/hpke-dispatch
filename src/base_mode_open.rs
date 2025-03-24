@@ -47,13 +47,19 @@ where
     KdfT: hpke::kdf::Kdf,
     KemT: hpke::kem::Kem,
 {
-    hpke::single_shot_open::<AeadT, KdfT, KemT>(
+    let result = hpke::single_shot_open::<AeadT, KdfT, KemT>(
         &hpke::OpModeR::Base,
         &from_bytes(private_key)?,
         &from_bytes(encapped_key)?,
         info,
         ciphertext,
         aad,
-    )
-    .map_err(Into::into) // this is noop unless compiling for wasm.
+    );
+    cfg_if::cfg_if! {
+        if #[cfg(target_arch = "wasm32")] {
+            result.map_err(Into::into)
+        } else {
+            result
+        }
+    }
 }
