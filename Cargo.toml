@@ -45,7 +45,7 @@ package = "serde"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2.87"
-getrandom = { version = "0.2.10", features = ["js", "js-sys"] }
+getrandom = { version = "0.3.0", features = ["js", "js-sys"] }
 
 [lib]
 crate-type = ["cdylib", "rlib"]
