@@ -19,7 +19,6 @@ This will return an `Result::Err` variant if:
 * there is an error in key decapsulation
 * there is an error in decryption
  */
-
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 #[cfg(feature = "base-mode-open")]
 pub fn base_mode_open(
