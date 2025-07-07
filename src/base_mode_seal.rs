@@ -21,7 +21,6 @@ This will return an `Result::Err` variant if:
 * there is an error in encryption
 
  */
-
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 #[cfg(feature = "base-mode-seal")]
 pub fn base_mode_seal(
