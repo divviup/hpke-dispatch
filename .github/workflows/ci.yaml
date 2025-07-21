@@ -70,7 +70,10 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: "20"
-    - uses: jetli/wasm-pack-action@v0.4.0
+    - name: install cargo-binstall
+      uses: cargo-bins/cargo-binstall@v1.12.6
+    - name: install wasm-pack
+      run: cargo binstall wasm-pack --version 0.13.1
     - name: build with default features
       run: wasm-pack build
     - name: node test
