@@ -52,7 +52,7 @@ pub fn gen_keypair(kem: Kem) -> Keypair {
 }
 
 fn gen_kp<KemT: hpke::kem::Kem>() -> Keypair {
-    let (private_key, public_key) = KemT::gen_keypair(&mut rand::thread_rng());
+    let (private_key, public_key) = KemT::gen_keypair(&mut rand::rng());
     let public_key = public_key.to_bytes().to_vec();
     let private_key = private_key.to_bytes().to_vec();
 
