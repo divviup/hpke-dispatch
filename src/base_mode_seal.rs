@@ -52,7 +52,7 @@ where
         info,
         plaintext,
         aad,
-        &mut rand::thread_rng(),
+        &mut rand::rng(),
     )?;
 
     Ok(EncappedKeyAndCiphertext {

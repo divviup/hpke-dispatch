@@ -9,7 +9,11 @@
     unused_qualifications
 )]
 #![warn(missing_docs, clippy::cargo)]
-#![allow(clippy::missing_errors_doc, clippy::use_self)]
+#![allow(
+    clippy::missing_errors_doc,
+    clippy::use_self,
+    clippy::multiple_crate_versions
+)]
 #![doc = include_str!("../README.md")]
 
 use hpke::Deserializable;

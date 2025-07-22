@@ -68,7 +68,7 @@ impl FromStr for Kem {
 }
 
 impl Kem {
-    /// generate a [`Keypair`] for this [`Config`] or [`Kem`].
+    /// generate a [`Keypair`] for this [`Kem`].
     #[must_use]
     pub fn gen_keypair(self) -> Keypair {
         crate::gen_keypair(self)
