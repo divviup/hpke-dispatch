@@ -72,7 +72,7 @@ jobs:
         toolchain: nightly
         override: true
         target: wasm32-unknown-unknown
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v5
       with:
         node-version: "22"
     - name: install cargo-binstall
@@ -88,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v5
       with:
         node-version: "22"
     - run: npm ci
