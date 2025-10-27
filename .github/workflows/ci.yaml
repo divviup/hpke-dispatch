@@ -76,7 +76,7 @@ jobs:
       with:
         node-version: "22"
     - name: install cargo-binstall
-      uses: cargo-bins/cargo-binstall@v1.15.7
+      uses: cargo-bins/cargo-binstall@v1.15.9
     - name: install wasm-pack
       run: cargo binstall wasm-pack --version 0.13.1
     - name: build with default features
