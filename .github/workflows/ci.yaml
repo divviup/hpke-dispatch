@@ -27,10 +27,7 @@ jobs:
       uses: Swatinem/rust-cache@v2.8.1
 
     - name: Run tests
-      uses: actions-rs/cargo@v1
-      with:
-        command: test
-        args: --all --no-fail-fast
+      run: cargo test --workspace --no-fail-fast
 
   check_fmt_and_docs:
     name: Lints and Docs
@@ -43,10 +40,8 @@ jobs:
       with:
         components: rustfmt, clippy
 
-    - uses: actions-rs/clippy-check@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        
+    - run: cargo clippy
+
     - name: Format
       run: cargo fmt --all -- --check
 
