@@ -46,3 +46,13 @@ package = "serde"
 hex = { version = "0.4.3", features = ["serde"] }
 serde_crate = { package = "serde", version = "1.0.185", features = ["derive"] }
 serde_json = "1.0.105"
+
+[package.metadata.cargo-all-features]
+# These features are redundant, as they only enable other features.
+denylist = ["algo-all", "aead-all", "kdf-all", "kem-all"]
+# We don't use the implicit "serde_crate" feature, only our explicitly defined
+# "serde" feature.
+skip_optional_dependencies = true
+# Allow for one of base-mode-open/base-mode-seal, one KEM, one KDF, one AEAD,
+# plus serde or another feature
+max_combination_size = 5
