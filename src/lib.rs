@@ -14,6 +14,21 @@
     clippy::multiple_crate_versions
 )]
 #![doc = include_str!("../README.md")]
+#![cfg(all(
+    any(feature = "base-mode-open", feature = "base-mode-seal"),
+    any(
+        feature = "aead-aes-gcm-128",
+        feature = "aead-aes-gcm-256",
+        feature = "aead-chacha-20-poly-1305",
+    ),
+    any(feature = "kdf-sha256", feature = "kdf-sha384", feature = "kdf-sha512"),
+    any(
+        feature = "kem-dh-p256-hkdf-sha256",
+        feature = "kem-dh-p384-hkdf-sha384",
+        feature = "kem-dh-p521-hkdf-sha512",
+        feature = "kem-x25519-hkdf-sha256",
+    ),
+))]
 
 use hpke::{Deserializable, HpkeError};
 
