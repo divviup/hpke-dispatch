@@ -17,6 +17,9 @@
 
 use hpke::{Deserializable, HpkeError};
 
+#[macro_use]
+mod macros;
+
 mod base_mode_open;
 pub use base_mode_open::base_mode_open;
 
@@ -40,9 +43,6 @@ pub use kdf::{Kdf, KDF_ALL};
 
 mod kem;
 pub use kem::{Kem, KEM_ALL};
-
-mod macros;
-pub(crate) use macros::match_algo;
 
 /**
 A simple error type for failed id lookups

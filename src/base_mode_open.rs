@@ -1,4 +1,4 @@
-use crate::{from_bytes, match_algo, Config};
+use crate::{from_bytes, Config};
 use hpke::HpkeError;
 
 /**

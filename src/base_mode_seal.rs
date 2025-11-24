@@ -1,4 +1,4 @@
-use crate::{from_bytes, match_algo, Config, EncappedKeyAndCiphertext};
+use crate::{from_bytes, Config, EncappedKeyAndCiphertext};
 use hpke::{HpkeError, Serializable};
 
 /**
