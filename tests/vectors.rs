@@ -1,7 +1,8 @@
 use hpke_dispatch::Config;
-use serde::Deserialize;
+use serde_crate::Deserialize;
 
 #[derive(Deserialize, Debug)]
+#[serde(crate = "serde_crate")]
 struct EncryptionRecord {
     #[serde(with = "hex")]
     aad: Vec<u8>,
@@ -16,6 +17,7 @@ struct EncryptionRecord {
 /// This structure corresponds to the format of the JSON test vectors included with the HPKE
 /// RFC. Only a subset of fields are used; all intermediate calculations are ignored.
 #[derive(Deserialize, Debug)]
+#[serde(crate = "serde_crate")]
 struct TestVector {
     mode: u16,
     kem_id: u16,
