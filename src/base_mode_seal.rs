@@ -1,8 +1,5 @@
-#[cfg(target_arch = "wasm32")]
-use wasm_bindgen::prelude::*;
-
-use crate::{from_bytes, match_algo, Config, EncappedKeyAndCiphertext, HpkeError};
-use hpke::Serializable;
+use crate::{from_bytes, match_algo, Config, EncappedKeyAndCiphertext};
+use hpke::{HpkeError, Serializable};
 
 /**
 `base_mode_seal` provides an interface to [`hpke::single_shot_seal`]
@@ -21,7 +18,6 @@ This will return an `Result::Err` variant if:
 * there is an error in encryption
 
  */
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 #[cfg(feature = "base-mode-seal")]
 pub fn base_mode_seal(
     config: &Config,

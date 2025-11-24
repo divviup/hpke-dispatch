@@ -1,12 +1,8 @@
-#[cfg(target_arch = "wasm32")]
-use wasm_bindgen::prelude::*;
-
 use crate::Kem;
 use hpke::Serializable;
 
 /// An encoded keypair
 #[derive(Debug, Clone, Eq, PartialEq, zeroize::Zeroize)]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen(getter_with_clone))]
 pub struct Keypair {
     /// the public key for this keypair
     pub public_key: Vec<u8>,
@@ -15,10 +11,8 @@ pub struct Keypair {
     pub private_key: Vec<u8>,
 }
 
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 impl Keypair {
     /// generate a keypair from a [`Kem`]
-    #[cfg_attr(target_arch = "wasm32", wasm_bindgen(constructor))]
     #[must_use]
     pub fn new(kem: Kem) -> Keypair {
         gen_keypair(kem)

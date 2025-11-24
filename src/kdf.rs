@@ -2,9 +2,6 @@ use crate::IdLookupError;
 use num_enum::TryFromPrimitive;
 use std::str::FromStr;
 
-#[cfg(target_arch = "wasm32")]
-use wasm_bindgen::prelude::*;
-
 /**
 Kdf represents an key derivation function, as per
 [RFC9180§7.2](https://www.rfc-editor.org/rfc/rfc9180.html#section-7.2)
@@ -17,8 +14,6 @@ Kdf represents an key derivation function, as per
     derive(serde_crate::Serialize, serde_crate::Deserialize)
 )]
 #[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
-#[cfg_attr(feature = "cfg_eval", cfg_eval)]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub enum Kdf {
     #[cfg(feature = "kdf-sha256")]
     /// Sha256 [RFC5869](https://www.rfc-editor.org/info/rfc5869)

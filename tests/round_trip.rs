@@ -23,7 +23,6 @@ fn test_round_trip(config: Config) {
 }
 
 #[test]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen_test::wasm_bindgen_test)]
 fn test_all_round_trips() {
     for ((aead, kdf), kem) in AEAD_ALL.iter().zip(KDF_ALL).zip(KEM_ALL) {
         test_round_trip(Config {

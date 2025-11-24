@@ -2,9 +2,6 @@ use crate::{IdLookupError, Keypair};
 use num_enum::TryFromPrimitive;
 use std::str::FromStr;
 
-#[cfg(target_arch = "wasm32")]
-use wasm_bindgen::prelude::*;
-
 /**
 Kem represents an asymmetric key encapsulation mechanism, as per
 [RFC9180§7.1][section-7.1]. Currently only four of the options listed in
@@ -20,8 +17,6 @@ the hpke draft are available.
     derive(serde_crate::Serialize, serde_crate::Deserialize)
 )]
 #[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
-#[cfg_attr(feature = "cfg_eval", cfg_eval)]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub enum Kem {
     /// DHKEM(P-256, HKDF-SHA256) [NISTCurves](https://doi.org/10.6028/nist.fips.186-4)
     #[cfg(feature = "kem-dh-p256-hkdf-sha256")]

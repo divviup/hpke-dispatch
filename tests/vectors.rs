@@ -33,7 +33,6 @@ struct TestVector {
 }
 
 #[test]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen_test::wasm_bindgen_test)]
 fn decrypt_test_vectors() {
     let test_vectors: Vec<TestVector> =
         serde_json::from_str(include_str!("./test-vectors.json")).unwrap(); // https://github.com/cfrg/draft-irtf-cfrg-hpke/raw/master/test-vectors.json

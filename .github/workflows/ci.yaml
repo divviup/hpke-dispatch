@@ -15,8 +15,6 @@ jobs:
         os: [ubuntu-latest, macOS-latest, windows-latest]
         rust: [stable, nightly]
     env:
-      # This environment variable would override the RUSTFLAGS value set in .config/cargo.toml when
-      # building for WASM. Thus, we only use it on host builds.
       RUSTFLAGS: -Dwarnings
     steps:
     - uses: actions/checkout@v6
@@ -39,8 +37,6 @@ jobs:
     name: Lints and Docs
     runs-on: ubuntu-latest
     env:
-      # This environment variable would override the RUSTFLAGS value set in .config/cargo.toml when
-      # building for WASM. Thus, we only use it on host builds.
       RUSTFLAGS: -Dwarnings
     steps:
     - uses: actions/checkout@v6
@@ -59,40 +55,3 @@ jobs:
 
     - name: Docs
       run: cargo doc --no-deps
-
-
-
-  wasm-pack:
-    name: Wasm stuff
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v6
-    - uses: actions-rs/toolchain@v1
-      with:
-        toolchain: nightly
-        override: true
-        target: wasm32-unknown-unknown
-    - uses: actions/setup-node@v6
-      with:
-        node-version: "22"
-    - name: install cargo-binstall
-      uses: cargo-bins/cargo-binstall@v1.16.2
-    - name: install wasm-pack
-      run: cargo binstall wasm-pack --version 0.13.1
-    - name: build with default features
-      run: wasm-pack build
-    - name: node test
-      run: wasm-pack test --node
-  js:
-    name: TS tests
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v6
-    - uses: actions/setup-node@v6
-      with:
-        node-version: "22"
-    - run: npm ci
-    - run: npm run build
-    - run: npm run test
-
-

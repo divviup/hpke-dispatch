@@ -1,7 +1,5 @@
-#[cfg(target_arch = "wasm32")]
-use wasm_bindgen::prelude::*;
-
-use crate::{from_bytes, match_algo, Config, HpkeError};
+use crate::{from_bytes, match_algo, Config};
+use hpke::HpkeError;
 
 /**
 `base_mode_open` provides an interface to [`hpke::single_shot_open`]
@@ -19,7 +17,6 @@ This will return an `Result::Err` variant if:
 * there is an error in key decapsulation
 * there is an error in decryption
  */
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 #[cfg(feature = "base-mode-open")]
 pub fn base_mode_open(
     config: &Config,
@@ -46,19 +43,12 @@ where
     KdfT: hpke::kdf::Kdf,
     KemT: hpke::kem::Kem,
 {
-    let result = hpke::single_shot_open::<AeadT, KdfT, KemT>(
+    hpke::single_shot_open::<AeadT, KdfT, KemT>(
         &hpke::OpModeR::Base,
         &from_bytes(private_key)?,
         &from_bytes(encapped_key)?,
         info,
         ciphertext,
         aad,
-    );
-    cfg_if::cfg_if! {
-        if #[cfg(target_arch = "wasm32")] {
-            result.map_err(Into::into)
-        } else {
-            result
-        }
-    }
+    )
 }
