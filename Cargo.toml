@@ -2,7 +2,7 @@
 name = "hpke-dispatch"
 version = "0.8.0"
 edition = "2021"
-description = "runtime algorithmic selection for hybrid public key encryption"
+description = "Runtime algorithm selection for hybrid public key encryption"
 license = "MPL-2.0"
 repository = "https://github.com/divviup/hpke-dispatch"
 readme = "./README.md"
