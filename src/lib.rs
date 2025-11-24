@@ -35,10 +35,14 @@ use hpke::{Deserializable, HpkeError};
 #[macro_use]
 mod macros;
 
+#[cfg(feature = "base-mode-open")]
 mod base_mode_open;
+#[cfg(feature = "base-mode-open")]
 pub use base_mode_open::base_mode_open;
 
+#[cfg(feature = "base-mode-seal")]
 mod base_mode_seal;
+#[cfg(feature = "base-mode-seal")]
 pub use base_mode_seal::base_mode_seal;
 
 mod config;

@@ -1,6 +1,8 @@
-use crate::{
-    base_mode_open, base_mode_seal, Aead, EncappedKeyAndCiphertext, IdLookupError, Kdf, Kem,
-};
+#[cfg(feature = "base-mode-open")]
+use crate::base_mode_open;
+#[cfg(feature = "base-mode-seal")]
+use crate::{base_mode_seal, EncappedKeyAndCiphertext};
+use crate::{Aead, IdLookupError, Kdf, Kem};
 #[cfg(any(feature = "base-mode-seal", feature = "base-mode-open"))]
 use hpke::HpkeError;
 
