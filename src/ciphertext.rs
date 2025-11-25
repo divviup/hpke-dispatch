@@ -1,11 +1,7 @@
-#[cfg(target_arch = "wasm32")]
-use wasm_bindgen::prelude::*;
-
 /**
 a simple struct to return the combined encapsulated key
 and ciphertext from seal
 */
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen(getter_with_clone))]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct EncappedKeyAndCiphertext {
     /// the encapsulated encryption key

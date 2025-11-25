@@ -1,7 +1,8 @@
 use hpke_dispatch::Config;
-use serde::Deserialize;
+use serde_crate::Deserialize;
 
 #[derive(Deserialize, Debug)]
+#[serde(crate = "serde_crate")]
 struct EncryptionRecord {
     #[serde(with = "hex")]
     aad: Vec<u8>,
@@ -16,6 +17,7 @@ struct EncryptionRecord {
 /// This structure corresponds to the format of the JSON test vectors included with the HPKE
 /// RFC. Only a subset of fields are used; all intermediate calculations are ignored.
 #[derive(Deserialize, Debug)]
+#[serde(crate = "serde_crate")]
 struct TestVector {
     mode: u16,
     kem_id: u16,
@@ -33,7 +35,6 @@ struct TestVector {
 }
 
 #[test]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen_test::wasm_bindgen_test)]
 fn decrypt_test_vectors() {
     let test_vectors: Vec<TestVector> =
         serde_json::from_str(include_str!("./test-vectors.json")).unwrap(); // https://github.com/cfrg/draft-irtf-cfrg-hpke/raw/master/test-vectors.json

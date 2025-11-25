@@ -2,7 +2,7 @@
 name = "hpke-dispatch"
 version = "0.8.0"
 edition = "2021"
-description = "runtime algorithmic selection for hybrid public key encryption"
+description = "Runtime algorithm selection for hybrid public key encryption"
 license = "MPL-2.0"
 repository = "https://github.com/divviup/hpke-dispatch"
 readme = "./README.md"
@@ -10,7 +10,6 @@ keywords = ["hpke", "encryption"]
 categories = ["cryptography"]
 
 [features]
-cfg_eval = []
 base-mode-open = []
 base-mode-seal = []
 serde = ["serde_crate"]
@@ -43,19 +42,17 @@ features = ["derive"]
 optional = true
 package = "serde"
 
-[target.wasm32-unknown-unknown.dependencies]
-wasm-bindgen = "0.2.87"
-getrandom_2 = { package = "getrandom", version = "0.2.16", features = ["js", "js-sys"] } # for getrandom 0.2
-getrandom_3 = { package = "getrandom", version = "0.3.3", features = ["wasm_js"] }       # for getrandom 0.3
-
-[lib]
-crate-type = ["cdylib", "rlib"]
-
-[profile.release]
-lto = true
-
 [dev-dependencies]
 hex = { version = "0.4.3", features = ["serde"] }
-serde = { version = "1.0.185", features = ["derive"] }
+serde_crate = { package = "serde", version = "1.0.185", features = ["derive"] }
 serde_json = "1.0.105"
-wasm-bindgen-test = "0.3.37"
+
+[package.metadata.cargo-all-features]
+# These features are redundant, as they only enable other features.
+denylist = ["algo-all", "aead-all", "kdf-all", "kem-all"]
+# We don't use the implicit "serde_crate" feature, only our explicitly defined
+# "serde" feature.
+skip_optional_dependencies = true
+# Allow for one of base-mode-open/base-mode-seal, one KEM, one KDF, one AEAD,
+# plus serde or another feature
+max_combination_size = 5

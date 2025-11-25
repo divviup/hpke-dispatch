@@ -13,34 +13,7 @@ single-shot message encryption/decryption, as defined in [RFC9180§6][section-6]
 [hpke]: https://github.com/rozbb/rust-hpke
 [section-6]: https://www.rfc-editor.org/rfc/rfc9180.html#section-6
 
-## WebAssembly ready
-
-This crate is also published to npm as [`hpke`][npm] as a
-typescript/javascript package, and can also be custom built for
-specific wasm use cases (omitting unused algorithms) with
-[`wasm-pack`][wasm-pack]. For an example of using the library from
-node, see [examples/example.ts][example-ts]
-
-[npm]: https://www.npmjs.com/package/hpke
-[wasm-pack]: https://github.com/rustwasm/wasm-pack
-[example-ts]: https://github.com/jbr/hpke-dispatch/blob/main/examples/example.ts
-
-## Nightly-only feature to work around a wasm-bindgen bug: `cfg_eval`
-
-In order to opt out of `algo-all` for a wasm build, you must use
-nightly and enable the `cfg_eval` cargo feature. This is due to
-[wasm-bindgen#2058][wasm-bindgen-2058]. This is not necessary for use
-from rust, even when opting out of `algo-all`.
-
-[hpke]: https://docs.rs/hpke/latest/hpke/
-[wasm-bindgen-2058]: https://github.com/rustwasm/wasm-bindgen/issues/2058
-
 ## Available cargo features:
-
-* *`cfg_eval`*: allows this crate to be built on nightly rust for wasm
-  without `algo-all`. Note that `algo-all` (all
-  algorithms) will build for wasm on any channel without this feature.
-  disabled by default. Attempting to build for wasm with a subset.
 
 * *base-mode-open*: Enables hpke base-mode one-shot open behavior
   (receiver functionality). Enabled by default.
@@ -66,19 +39,9 @@ from rust, even when opting out of `algo-all`.
 
 ## Example feature usage:
 
-To depend on this crate from rust with all algorithms,
+To depend on this crate with all algorithms,
 `base-mode-open`, and `base-mode-seal`, use default features.
 
-To depend on this crate from rust with all algorithms and serde
+To depend on this crate with all algorithms and serde
 enabled, but without `base-mode-seal`: `default-features = false,
 features = ["algo-all", "base-mode-open", "serde"]`
-
-To build for wasm without `kem-x25519-hkdf-sha256` or
-`base-mode-open`: `wasm-pack build --no-default-features --features
-aead-all,kdf-all,kem-dh-p256-hkdf-sha256,base-mode-seal,cfg_eval`
-
-To build for wasm with all algorithms but without base-mode-open:
-`wasm-pack build --no-default-features --features
-algo-all,base-mode-seal`
-
-

@@ -1,4 +1,3 @@
-#![cfg_attr(feature = "cfg_eval", feature(cfg_eval))]
 #![forbid(unsafe_code)]
 #![deny(
     clippy::dbg_macro,
@@ -15,16 +14,35 @@
     clippy::multiple_crate_versions
 )]
 #![doc = include_str!("../README.md")]
+#![cfg(all(
+    any(feature = "base-mode-open", feature = "base-mode-seal"),
+    any(
+        feature = "aead-aes-gcm-128",
+        feature = "aead-aes-gcm-256",
+        feature = "aead-chacha-20-poly-1305",
+    ),
+    any(feature = "kdf-sha256", feature = "kdf-sha384", feature = "kdf-sha512"),
+    any(
+        feature = "kem-dh-p256-hkdf-sha256",
+        feature = "kem-dh-p384-hkdf-sha384",
+        feature = "kem-dh-p521-hkdf-sha512",
+        feature = "kem-x25519-hkdf-sha256",
+    ),
+))]
 
-use hpke::Deserializable;
+use hpke::{Deserializable, HpkeError};
 
-#[cfg(target_arch = "wasm32")]
-use wasm_bindgen::prelude::*;
+#[macro_use]
+mod macros;
 
+#[cfg(feature = "base-mode-open")]
 mod base_mode_open;
+#[cfg(feature = "base-mode-open")]
 pub use base_mode_open::base_mode_open;
 
+#[cfg(feature = "base-mode-seal")]
 mod base_mode_seal;
+#[cfg(feature = "base-mode-seal")]
 pub use base_mode_seal::base_mode_seal;
 
 mod config;
@@ -45,14 +63,10 @@ pub use kdf::{Kdf, KDF_ALL};
 mod kem;
 pub use kem::{Kem, KEM_ALL};
 
-mod macros;
-pub(crate) use macros::match_algo;
-
 /**
 A simple error type for failed id lookups
  */
 #[derive(Copy, Clone, Debug)]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 #[cfg_attr(
     feature = "serde",
     derive(serde_crate::Serialize, serde_crate::Deserialize)
@@ -67,36 +81,5 @@ impl std::fmt::Display for IdLookupError {
 impl std::error::Error for IdLookupError {}
 
 pub(crate) fn from_bytes<T: Deserializable>(encoded: &[u8]) -> Result<T, HpkeError> {
-    let result = T::from_bytes(encoded);
-    cfg_if::cfg_if! {
-        if #[cfg(target_arch = "wasm32")] {
-            result.map_err(Into::into)
-        } else {
-            result
-        }
-    }
-}
-
-cfg_if::cfg_if! {
-    if #[cfg(target_arch = "wasm32")] {
-        /**
-        a newtype wrapper for HpkeError so we can use it in wasm_bindgen
-         */
-        #[wasm_bindgen]
-        #[derive(Debug, Clone, Copy)]
-        pub struct HpkeError(hpke::HpkeError);
-        impl From<hpke::HpkeError> for HpkeError {
-            fn from(h: hpke::HpkeError) -> Self {
-                Self(h)
-            }
-        }
-
-        impl core::fmt::Display for HpkeError {
-            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-               core::fmt::Display::fmt(&self.0, f)
-            }
-        }
-    } else {
-        pub use hpke::HpkeError;
-    }
+    T::from_bytes(encoded)
 }

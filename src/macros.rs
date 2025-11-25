@@ -1,5 +1,3 @@
-#![allow(clippy::redundant_pub_crate)]
-
 macro_rules! match_algo {
     ($aead:ident, $kdf:ident, $kem:ident, $fn:ident) => {
         match_algo!(@aead, $aead, $kdf, $kem, $fn)
@@ -42,5 +40,3 @@ macro_rules! match_algo {
         }
     };
 }
-
-pub(crate) use match_algo;

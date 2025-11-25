@@ -1,17 +1,17 @@
-#[cfg(target_arch = "wasm32")]
-use wasm_bindgen::prelude::*;
+#[cfg(feature = "base-mode-open")]
+use crate::base_mode_open;
+#[cfg(feature = "base-mode-seal")]
+use crate::{base_mode_seal, EncappedKeyAndCiphertext};
+use crate::{Aead, IdLookupError, Kdf, Kem};
+#[cfg(any(feature = "base-mode-seal", feature = "base-mode-open"))]
+use hpke::HpkeError;
 
-use crate::{
-    base_mode_open, base_mode_seal, Aead, EncappedKeyAndCiphertext, HpkeError, IdLookupError, Kdf,
-    Kem,
-};
 /**
 Config is an open struct that contains an ([`Aead`], [`Kdf`], [`Kem`])
 algorithmic triple. This can be used with [`Config::base_mode_seal`],
 [`Config::base_mode_open`], [`base_mode_seal`], or [`base_mode_open`].
 */
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 #[cfg_attr(
     feature = "serde",
     derive(serde_crate::Serialize, serde_crate::Deserialize)
@@ -26,7 +26,6 @@ pub struct Config {
     pub kem: Kem,
 }
 
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 impl Config {
     /**
     base_mode_seal provides an interface to [`hpke::single_shot_seal`] that does
@@ -86,7 +85,6 @@ impl Config {
     }
 
     /// Attempt to convert three u16 ids into a valid config. The id mappings are defined in the draft.
-    #[allow(clippy::use_self)] // wasm_bindgen gets confused about Self
     pub fn try_from_ids(aead_id: u16, kdf_id: u16, kem_id: u16) -> Result<Config, IdLookupError> {
         Ok(Self {
             aead: aead_id.try_into().map_err(|_| IdLookupError("aead"))?,

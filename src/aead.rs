@@ -2,9 +2,6 @@ use crate::IdLookupError;
 use num_enum::TryFromPrimitive;
 use std::str::FromStr;
 
-#[cfg(target_arch = "wasm32")]
-use wasm_bindgen::prelude::*;
-
 /**
 Aead represents an authenticated encryption with additional data
 encryption function, as per [RFC9180§7.3](https://www.rfc-editor.org/rfc/rfc9180.html#section-7.3)
@@ -17,8 +14,6 @@ encryption function, as per [RFC9180§7.3](https://www.rfc-editor.org/rfc/rfc918
     derive(serde_crate::Serialize, serde_crate::Deserialize)
 )]
 #[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
-#[cfg_attr(feature = "cfg_eval", cfg_eval)]
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub enum Aead {
     #[cfg(feature = "aead-aes-gcm-128")]
     /// AES-128-GCM [GCM](https://doi.org/10.6028/nist.sp.800-38d)
