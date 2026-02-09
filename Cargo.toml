@@ -30,7 +30,7 @@ kem-dh-p521-hkdf-sha512 = ["hpke/p521"]
 kem-x25519-hkdf-sha256 = ["hpke/x25519"]
 
 [dependencies]
-rand = "0.9.2"
+rand = "0.10.0"
 num_enum = "0.7.0"
 cfg-if = "1.0.0"
 hpke = { version = "0.13.0", default-features = false, features = ["std"] }
