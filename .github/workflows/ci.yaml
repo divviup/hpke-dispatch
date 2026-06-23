@@ -17,7 +17,7 @@ jobs:
     env:
       RUSTFLAGS: -Dwarnings
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v6.0.3
     - name: Install ${{ matrix.rust }}
       uses: dtolnay/rust-toolchain@master
       with:
@@ -38,7 +38,7 @@ jobs:
       RUSTFLAGS: -Dwarnings
       RUSTDOCFLAGS: -Dwarnings
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v6.0.3
     - uses: dtolnay/rust-toolchain@stable
       with:
         components: rustfmt, clippy
