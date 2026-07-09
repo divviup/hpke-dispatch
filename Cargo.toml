@@ -16,24 +16,24 @@ serde = ["serde_crate"]
 algo-all = ["aead-all", "kdf-all", "kem-all"]
 default = ["algo-all", "base-mode-seal", "base-mode-open"]
 aead-all = ["aead-aes-gcm-128", "aead-aes-gcm-256", "aead-chacha-20-poly-1305"]
-aead-aes-gcm-128 = []
-aead-aes-gcm-256 = []
-aead-chacha-20-poly-1305 = []
+aead-aes-gcm-128 = ["hpke/aes"]
+aead-aes-gcm-256 = ["hpke/aes"]
+aead-chacha-20-poly-1305 = ["hpke/chacha"]
 kdf-all = ["kdf-sha256", "kdf-sha384", "kdf-sha512"]
-kdf-sha256 = []
-kdf-sha384 = []
-kdf-sha512 = []
+kdf-sha256 = ["hpke/hkdfsha2"]
+kdf-sha384 = ["hpke/hkdfsha2"]
+kdf-sha512 = ["hpke/hkdfsha2"]
 kem-all = ["kem-dh-p256-hkdf-sha256", "kem-dh-p384-hkdf-sha384", "kem-dh-p521-hkdf-sha512", "kem-x25519-hkdf-sha256"]
-kem-dh-p256-hkdf-sha256 = ["hpke/p256"]
-kem-dh-p384-hkdf-sha384 = ["hpke/p384"]
-kem-dh-p521-hkdf-sha512 = ["hpke/p521"]
+kem-dh-p256-hkdf-sha256 = ["hpke/nistp"]
+kem-dh-p384-hkdf-sha384 = ["hpke/nistp"]
+kem-dh-p521-hkdf-sha512 = ["hpke/nistp"]
 kem-x25519-hkdf-sha256 = ["hpke/x25519"]
 
 [dependencies]
 rand = "0.9.2"
 num_enum = "0.7.0"
 cfg-if = "1.0.0"
-hpke = { version = "0.13.0", default-features = false, features = ["std"] }
+hpke = "0.14"
 zeroize = "1.6"
 
 [dependencies.serde_crate]

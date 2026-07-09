@@ -42,13 +42,12 @@ where
     KdfT: hpke::kdf::Kdf,
     KemT: hpke::kem::Kem,
 {
-    let (encapped_key, ciphertext) = hpke::single_shot_seal::<AeadT, KdfT, KemT, _>(
+    let (encapped_key, ciphertext) = hpke::single_shot_seal::<AeadT, KdfT, KemT>(
         &hpke::OpModeS::Base,
         &from_bytes(recipient_public_key)?,
         info,
         plaintext,
         aad,
-        &mut rand::rng(),
     )?;
 
     Ok(EncappedKeyAndCiphertext {
