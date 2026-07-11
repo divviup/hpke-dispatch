@@ -42,6 +42,21 @@ pub fn gen_keypair(kem: Kem) -> Keypair {
 
         #[cfg(feature = "kem-x25519")]
         Kem::X25519HkdfSha256 => gen_kp::<hpke::kem::X25519HkdfSha256>(),
+
+        #[cfg(feature = "kem-mlkem")]
+        Kem::MlKem768 => gen_kp::<hpke::kem::MlKem768>(),
+
+        #[cfg(feature = "kem-mlkem")]
+        Kem::MlKem1024 => gen_kp::<hpke::kem::MlKem1024>(),
+
+        #[cfg(all(feature = "kem-mlkem", feature = "kem-x25519"))]
+        Kem::XWing => gen_kp::<hpke::kem::XWing>(),
+
+        #[cfg(all(feature = "kem-mlkem", feature = "kem-nistp"))]
+        Kem::MlKem768P256 => gen_kp::<hpke::kem::MlKem768P256>(),
+
+        #[cfg(all(feature = "kem-mlkem", feature = "kem-nistp"))]
+        Kem::MlKem1024P384 => gen_kp::<hpke::kem::MlKem1024P384>(),
     }
 }
 

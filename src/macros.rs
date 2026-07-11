@@ -45,6 +45,16 @@ macro_rules! match_algo {
             $crate::Kem::DhP521HkdfSha512 => $fn::<$aead, $kdf, hpke::kem::DhP521HkdfSha512>,
             #[cfg(feature = "kem-x25519")]
             $crate::Kem::X25519HkdfSha256 => $fn::<$aead, $kdf, hpke::kem::X25519HkdfSha256>,
+            #[cfg(feature = "kem-mlkem")]
+            $crate::Kem::MlKem768 => $fn::<$aead, $kdf, hpke::kem::MlKem768>,
+            #[cfg(feature = "kem-mlkem")]
+            $crate::Kem::MlKem1024 => $fn::<$aead, $kdf, hpke::kem::MlKem1024>,
+            #[cfg(all(feature = "kem-mlkem", feature = "kem-x25519"))]
+            $crate::Kem::XWing => $fn::<$aead, $kdf, hpke::kem::XWing>,
+            #[cfg(all(feature = "kem-mlkem", feature = "kem-nistp"))]
+            $crate::Kem::MlKem768P256 => $fn::<$aead, $kdf, hpke::kem::MlKem768P256>,
+            #[cfg(all(feature = "kem-mlkem", feature = "kem-nistp"))]
+            $crate::Kem::MlKem1024P384 => $fn::<$aead, $kdf, hpke::kem::MlKem1024P384>,
         }
     };
 }
