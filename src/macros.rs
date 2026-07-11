@@ -24,6 +24,14 @@ macro_rules! match_algo {
             $crate::Kdf::Sha384 => match_algo!(@kem, $aead, hpke::kdf::HkdfSha384, $kem, $fn),
             #[cfg(feature = "kdf-hkdfsha2")]
             $crate::Kdf::Sha512 => match_algo!(@kem, $aead, hpke::kdf::HkdfSha512, $kem, $fn),
+            #[cfg(feature = "kdf-shake")]
+            $crate::Kdf::Shake128 => match_algo!(@kem, $aead, hpke::kdf::KdfShake128, $kem, $fn),
+            #[cfg(feature = "kdf-shake")]
+            $crate::Kdf::Shake256 => match_algo!(@kem, $aead, hpke::kdf::KdfShake256, $kem, $fn),
+            #[cfg(feature = "kdf-shake")]
+            $crate::Kdf::TurboShake128 => match_algo!(@kem, $aead, hpke::kdf::KdfTurboShake128, $kem, $fn),
+            #[cfg(feature = "kdf-shake")]
+            $crate::Kdf::TurboShake256 => match_algo!(@kem, $aead, hpke::kdf::KdfTurboShake256, $kem, $fn),
         }
     };
 
