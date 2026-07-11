@@ -27,9 +27,7 @@ kem-nistp = ["hpke/nistp"]
 kem-mlkem = ["hpke/mlkem"]
 
 [dependencies]
-rand = "0.9.2"
 num_enum = "0.7.0"
-cfg-if = "1.0.0"
 hpke = { version = "0.14", default-features = false, features = ["getrandom", "alloc"] }
 zeroize = "1.6"
 
