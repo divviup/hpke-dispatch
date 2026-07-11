@@ -15,13 +15,13 @@ Kdf represents an key derivation function, as per
 )]
 #[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
 pub enum Kdf {
-    #[cfg(feature = "kdf-sha256")]
+    #[cfg(feature = "kdf-hkdfsha2")]
     /// Sha256 [RFC5869](https://www.rfc-editor.org/info/rfc5869)
     Sha256 = 1,
-    #[cfg(feature = "kdf-sha384")]
+    #[cfg(feature = "kdf-hkdfsha2")]
     /// Sha384 [RFC5869](https://www.rfc-editor.org/info/rfc5869)
     Sha384 = 2,
-    #[cfg(feature = "kdf-sha512")]
+    #[cfg(feature = "kdf-hkdfsha2")]
     /// Sha512 [RFC5869](https://www.rfc-editor.org/info/rfc5869)
     Sha512 = 3,
 }
@@ -31,11 +31,11 @@ impl FromStr for Kdf {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match &*s.to_lowercase().replace('-', "") {
-            #[cfg(feature = "kdf-sha256")]
+            #[cfg(feature = "kdf-hkdfsha2")]
             "hkdfsha256" | "sha256" => Ok(Self::Sha256),
-            #[cfg(feature = "kdf-sha384")]
+            #[cfg(feature = "kdf-hkdfsha2")]
             "hkdfsha384" | "sha384" => Ok(Self::Sha384),
-            #[cfg(feature = "kdf-sha512")]
+            #[cfg(feature = "kdf-hkdfsha2")]
             "hkdfsha512" | "sha512" => Ok(Self::Sha512),
             _ => Err(IdLookupError("kdf not recognized")),
         }
@@ -44,10 +44,10 @@ impl FromStr for Kdf {
 
 /// An iterable slice of [`Kdf`] variants
 pub const KDF_ALL: &[Kdf] = &[
-    #[cfg(feature = "kdf-sha256")]
+    #[cfg(feature = "kdf-hkdfsha2")]
     Kdf::Sha256,
-    #[cfg(feature = "kdf-sha384")]
+    #[cfg(feature = "kdf-hkdfsha2")]
     Kdf::Sha384,
-    #[cfg(feature = "kdf-sha512")]
+    #[cfg(feature = "kdf-hkdfsha2")]
     Kdf::Sha512,
 ];
