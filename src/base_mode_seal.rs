@@ -1,21 +1,20 @@
-use crate::{from_bytes, Config, EncappedKeyAndCiphertext};
 use hpke::{HpkeError, Serializable};
 
-/**
-`base_mode_seal` provides an interface to [`hpke::single_shot_seal`]
-that does not require compile time selection of an
-algorithm. Instead, the selected algorithm is provided through the
-[`Config`] passed as the first argument.
+use crate::{from_bytes, Config, EncappedKeyAndCiphertext};
 
-# Errors
-
-This will return an `Result::Err` variant if:
-
-* we are unable to deserialize the recipient public key
-* there is an error in key encapsultion
-* there is an error in encryption
-
- */
+/// Single-shot HPKE ciphertext sealing.
+///
+/// `base_mode_seal` provides an interface to [`hpke::single_shot_seal`] that does not require
+/// compile time selection of an algorithm. Instead, the selected algorithm is provided through the
+/// [`Config`] passed as the first argument.
+///
+/// # Errors
+///
+/// This will return an `Result::Err` variant if:
+///
+/// * we are unable to deserialize the recipient public key
+/// * there is an error in key encapsultion
+/// * there is an error in encryption
 pub fn base_mode_seal(
     config: &Config,
     recipient_public_key: &[u8],

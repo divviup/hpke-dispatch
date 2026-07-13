@@ -1,0 +1,16 @@
+# Enforce consistent code formatting across the project
+max_width = 100
+use_small_heuristics = "Default"
+
+# Comment formatting (requires nightly rustfmt)
+wrap_comments = true
+comment_width = 100
+
+# Unstable features
+imports_granularity = "Crate"
+group_imports = "StdExternalCrate"
+error_on_line_overflow = true
+
+# Note: format_code_in_doc_comments is NOT enabled due to known issues
+# with block comment conversion and trailing comment alignment.
+# See: https://github.com/rust-lang/rustfmt/issues/5533

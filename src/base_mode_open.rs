@@ -1,20 +1,20 @@
-use crate::{from_bytes, Config};
 use hpke::HpkeError;
 
-/**
-`base_mode_open` provides an interface to [`hpke::single_shot_open`]
-that does not require compile time selection of an algorithm. Instead,
-the selected algorithm is provided through the [`Config`] passed as
-the first argument.
+use crate::{from_bytes, Config};
 
-# Errors
-
-This will return an `Result::Err` variant if:
-
-* we are unable to deserialize the private key or encapsulated key
-* there is an error in key decapsulation
-* there is an error in decryption
- */
+/// Single-shot HPKE ciphertext opening.
+///
+/// `base_mode_open` provides an interface to [`hpke::single_shot_open`] that does not require
+/// compile time selection of an algorithm. Instead, the selected algorithm is provided through the
+/// [`Config`] passed as the first argument.
+///
+/// # Errors
+///
+/// This will return a `Result::Err` variant if:
+///
+/// * we are unable to deserialize the private key or encapsulated key
+/// * there is an error in key decapsulation
+/// * there is an error in decryption
 pub fn base_mode_open(
     config: &Config,
     private_key: &[u8],

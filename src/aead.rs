@@ -1,11 +1,12 @@
-use crate::IdLookupError;
-use num_enum::TryFromPrimitive;
 use std::str::FromStr;
 
-/**
-Aead represents an authenticated encryption with additional data
-encryption function, as per [RFC9180§7.3](https://www.rfc-editor.org/rfc/rfc9180.html#section-7.3)
-*/
+use num_enum::TryFromPrimitive;
+
+use crate::IdLookupError;
+
+/// An authenticated encryption with additional data encryption function, as per [RFC9180§7.3][1].
+///
+/// [1]: https://www.rfc-editor.org/rfc/rfc9180.html#section-7.3
 #[non_exhaustive]
 #[repr(u16)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, TryFromPrimitive)]

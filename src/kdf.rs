@@ -1,6 +1,8 @@
-use crate::IdLookupError;
-use num_enum::TryFromPrimitive;
 use std::str::FromStr;
+
+use num_enum::TryFromPrimitive;
+
+use crate::IdLookupError;
 
 /// A key derivation function used in HPKE.
 ///

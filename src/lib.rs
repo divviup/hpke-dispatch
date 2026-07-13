@@ -49,9 +49,7 @@ pub use kdf::{Kdf, KDF_ALL};
 mod kem;
 pub use kem::{Kem, KEM_ALL};
 
-/**
-A simple error type for failed id lookups
- */
+/// A simple error type for failed id lookups
 #[derive(Copy, Clone, Debug)]
 #[cfg_attr(
     feature = "serde",

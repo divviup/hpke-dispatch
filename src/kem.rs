@@ -1,6 +1,8 @@
-use crate::{IdLookupError, Keypair};
-use num_enum::TryFromPrimitive;
 use std::str::FromStr;
+
+use num_enum::TryFromPrimitive;
+
+use crate::{IdLookupError, Keypair};
 
 /// An asymmetric key encapsulation mechanism.
 ///

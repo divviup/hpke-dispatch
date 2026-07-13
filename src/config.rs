@@ -1,13 +1,14 @@
+use hpke::HpkeError;
+
 use crate::{
     base_mode_open, base_mode_seal, Aead, EncappedKeyAndCiphertext, IdLookupError, Kdf, Kem,
 };
-use hpke::HpkeError;
 
-/**
-Config is an open struct that contains an ([`Aead`], [`Kdf`], [`Kem`])
-algorithmic triple. This can be used with [`Config::base_mode_seal`],
-[`Config::base_mode_open`], [`base_mode_seal`], or [`base_mode_open`].
-*/
+/// Configuration for crate interfaces.
+///
+/// Contains an ([`Aead`], [`Kdf`], [`Kem`]) algorithmic triple. This can be used with
+/// [`Config::base_mode_seal`], [`Config::base_mode_open`], [`base_mode_seal`], or
+/// [`base_mode_open`].
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(
     feature = "serde",
@@ -15,7 +16,8 @@ algorithmic triple. This can be used with [`Config::base_mode_seal`],
 )]
 #[cfg_attr(feature = "serde", serde(crate = "serde_crate"))]
 pub struct Config {
-    /// the [authenticated encryption with additional data encryption function](crate::Aead) to be used
+    /// the [authenticated encryption with additional data encryption function](crate::Aead) to be
+    /// used
     pub aead: Aead,
     /// the [key derivation function](crate::Kdf) to be used
     pub kdf: Kdf,
@@ -24,21 +26,19 @@ pub struct Config {
 }
 
 impl Config {
-    /**
-    base_mode_seal provides an interface to [`hpke::single_shot_seal`] that does
-    not require compile time selection of an algorithm. Instead, the
-    selected algorithm is provided through the [`Config`] that this
-    method is called on.
-
-    # Errors
-
-    This will return an `Result::Err` variant if:
-
-     * we are unable to deserialize the recipient public key
-     * there is an error in key encapsultion
-     * there is an error in encryption
-
-     */
+    /// Single-shot HPKE ciphertext sealing.
+    ///
+    /// `base_mode_seal` provides an interface to [`hpke::single_shot_seal`] that does not require
+    /// compile time selection of an algorithm. Instead, the selected algorithm is provided through
+    /// the receiver.
+    ///
+    /// # Errors
+    ///
+    /// This will return a `Result::Err` variant if:
+    ///
+    /// * we are unable to deserialize the recipient public key
+    /// * there is an error in key encapsultion
+    /// * there is an error in encryption
     pub fn base_mode_seal(
         &self,
         recipient_public_key: &[u8],
@@ -49,21 +49,19 @@ impl Config {
         base_mode_seal(self, recipient_public_key, info, plaintext, aad)
     }
 
-    /**
-    base_mode_open provides an interface to [`hpke::single_shot_open`]
-    that does not require compile time selection of an
-    algorithm. Instead, the selected algorithm is provided through the
-    [`Config`] that this method is called on.
-
-    # Errors
-
-    This will return an `Result::Err` variant if:
-
-    * we are unable to deserialize the private key or encapsulated key
-    * there is an error in key decapsulation
-    * there is an error in decryption
-
-    */
+    /// Single-shot HPKE ciphertext opening.
+    ///
+    /// `base_mode_open` provides an interface to [`hpke::single_shot_open`] that does not require
+    /// compile time selection of an algorithm. Instead, the selected algorithm is provided through
+    /// the receiver
+    ///
+    /// # Errors
+    ///
+    /// This will return a `Result::Err` variant if:
+    ///
+    /// * we are unable to deserialize the private key or encapsulated key
+    /// * there is an error in key decapsulation
+    /// * there is an error in decryption
     pub fn base_mode_open(
         &self,
         private_key: &[u8],
@@ -75,7 +73,11 @@ impl Config {
         base_mode_open(self, private_key, encapped_key, info, ciphertext, aad)
     }
 
-    /// Attempt to convert three u16 ids into a valid config. The id mappings are defined in the draft.
+    /// Attempt to convert three u16 ids into a valid [`Config`].
+    ///
+    /// The ID mappings are defined in the [IANA HPKE registries][1].
+    ///
+    /// [1]: https://www.iana.org/assignments/hpke/hpke.xhtml
     pub fn try_from_ids(aead_id: u16, kdf_id: u16, kem_id: u16) -> Result<Config, IdLookupError> {
         Ok(Self {
             aead: aead_id.try_into().map_err(|_| IdLookupError("aead"))?,
