@@ -32,10 +32,10 @@ pub enum Kdf {
     /// SHAKE256 [FIPS 202](https://csrc.nist.gov/pubs/fips/202/final)
     #[cfg(feature = "shake")]
     Shake256 = 0x0011,
-    /// TurboSHAKE128 [FIPS 202](https://csrc.nist.gov/pubs/fips/202/final)
+    /// TurboSHAKE128 [RFC 9861](https://www.rfc-editor.org/info/rfc9861/)
     #[cfg(feature = "shake")]
     TurboShake128 = 0x0012,
-    /// TurboSHAKE256 [FIPS 202](https://csrc.nist.gov/pubs/fips/202/final)
+    /// TurboSHAKE256 [RFC 9861](https://www.rfc-editor.org/info/rfc9861/)
     #[cfg(feature = "shake")]
     TurboShake256 = 0x0013,
 }
