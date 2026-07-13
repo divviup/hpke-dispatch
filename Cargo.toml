@@ -10,30 +10,23 @@ keywords = ["hpke", "encryption"]
 categories = ["cryptography"]
 
 [features]
-base-mode-open = []
-base-mode-seal = []
 serde = ["serde_crate"]
 algo-all = ["aead-all", "kdf-all", "kem-all"]
-default = ["algo-all", "base-mode-seal", "base-mode-open"]
-aead-all = ["aead-aes-gcm-128", "aead-aes-gcm-256", "aead-chacha-20-poly-1305"]
-aead-aes-gcm-128 = []
-aead-aes-gcm-256 = []
-aead-chacha-20-poly-1305 = []
-kdf-all = ["kdf-sha256", "kdf-sha384", "kdf-sha512"]
-kdf-sha256 = []
-kdf-sha384 = []
-kdf-sha512 = []
-kem-all = ["kem-dh-p256-hkdf-sha256", "kem-dh-p384-hkdf-sha384", "kem-dh-p521-hkdf-sha512", "kem-x25519-hkdf-sha256"]
-kem-dh-p256-hkdf-sha256 = ["hpke/p256"]
-kem-dh-p384-hkdf-sha384 = ["hpke/p384"]
-kem-dh-p521-hkdf-sha512 = ["hpke/p521"]
-kem-x25519-hkdf-sha256 = ["hpke/x25519"]
+default = ["algo-all"]
+aead-all = ["aes", "chacha"]
+aes = ["hpke/aes"]
+chacha = ["hpke/chacha"]
+kdf-all = ["hkdfsha2", "shake"]
+hkdfsha2 = ["hpke/hkdfsha2"]
+shake = ["hpke/shake"]
+kem-all = ["x25519", "nistp", "mlkem"]
+x25519 = ["hpke/x25519"]
+nistp = ["hpke/nistp"]
+mlkem = ["hpke/mlkem"]
 
 [dependencies]
-rand = "0.9.2"
 num_enum = "0.7.0"
-cfg-if = "1.0.0"
-hpke = { version = "0.13.0", default-features = false, features = ["std"] }
+hpke = { version = "0.14", default-features = false, features = ["getrandom", "alloc"] }
 zeroize = "1.6"
 
 [dependencies.serde_crate]
@@ -46,13 +39,3 @@ package = "serde"
 hex = { version = "0.4.3", features = ["serde"] }
 serde_crate = { package = "serde", version = "1.0.185", features = ["derive"] }
 serde_json = "1.0.105"
-
-[package.metadata.cargo-all-features]
-# These features are redundant, as they only enable other features.
-denylist = ["algo-all", "aead-all", "kdf-all", "kem-all"]
-# We don't use the implicit "serde_crate" feature, only our explicitly defined
-# "serde" feature.
-skip_optional_dependencies = true
-# Allow for one of base-mode-open/base-mode-seal, one KEM, one KDF, one AEAD,
-# plus serde or another feature
-max_combination_size = 5

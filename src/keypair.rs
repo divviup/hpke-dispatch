@@ -31,22 +31,37 @@ impl Keypair {
 #[must_use]
 pub fn gen_keypair(kem: Kem) -> Keypair {
     match kem {
-        #[cfg(feature = "kem-dh-p256-hkdf-sha256")]
+        #[cfg(feature = "nistp")]
         Kem::DhP256HkdfSha256 => gen_kp::<hpke::kem::DhP256HkdfSha256>(),
 
-        #[cfg(feature = "kem-dh-p384-hkdf-sha384")]
+        #[cfg(feature = "nistp")]
         Kem::DhP384HkdfSha384 => gen_kp::<hpke::kem::DhP384HkdfSha384>(),
 
-        #[cfg(feature = "kem-dh-p521-hkdf-sha512")]
+        #[cfg(feature = "nistp")]
         Kem::DhP521HkdfSha512 => gen_kp::<hpke::kem::DhP521HkdfSha512>(),
 
-        #[cfg(feature = "kem-x25519-hkdf-sha256")]
+        #[cfg(feature = "x25519")]
         Kem::X25519HkdfSha256 => gen_kp::<hpke::kem::X25519HkdfSha256>(),
+
+        #[cfg(feature = "mlkem")]
+        Kem::MlKem768 => gen_kp::<hpke::kem::MlKem768>(),
+
+        #[cfg(feature = "mlkem")]
+        Kem::MlKem1024 => gen_kp::<hpke::kem::MlKem1024>(),
+
+        #[cfg(all(feature = "mlkem", feature = "x25519"))]
+        Kem::XWing => gen_kp::<hpke::kem::XWing>(),
+
+        #[cfg(all(feature = "mlkem", feature = "nistp"))]
+        Kem::MlKem768P256 => gen_kp::<hpke::kem::MlKem768P256>(),
+
+        #[cfg(all(feature = "mlkem", feature = "nistp"))]
+        Kem::MlKem1024P384 => gen_kp::<hpke::kem::MlKem1024P384>(),
     }
 }
 
 fn gen_kp<KemT: hpke::kem::Kem>() -> Keypair {
-    let (private_key, public_key) = KemT::gen_keypair(&mut rand::rng());
+    let (private_key, public_key) = KemT::gen_keypair();
     let public_key = public_key.to_bytes().to_vec();
     let private_key = private_key.to_bytes().to_vec();
 

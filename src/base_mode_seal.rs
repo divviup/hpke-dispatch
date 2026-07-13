@@ -7,8 +7,6 @@ that does not require compile time selection of an
 algorithm. Instead, the selected algorithm is provided through the
 [`Config`] passed as the first argument.
 
-Requires the `base-mode-seal` crate feature to be enabled.
-
 # Errors
 
 This will return an `Result::Err` variant if:
@@ -18,7 +16,6 @@ This will return an `Result::Err` variant if:
 * there is an error in encryption
 
  */
-#[cfg(feature = "base-mode-seal")]
 pub fn base_mode_seal(
     config: &Config,
     recipient_public_key: &[u8],
@@ -42,13 +39,12 @@ where
     KdfT: hpke::kdf::Kdf,
     KemT: hpke::kem::Kem,
 {
-    let (encapped_key, ciphertext) = hpke::single_shot_seal::<AeadT, KdfT, KemT, _>(
+    let (encapped_key, ciphertext) = hpke::single_shot_seal::<AeadT, KdfT, KemT>(
         &hpke::OpModeS::Base,
         &from_bytes(recipient_public_key)?,
         info,
         plaintext,
         aad,
-        &mut rand::rng(),
     )?;
 
     Ok(EncappedKeyAndCiphertext {

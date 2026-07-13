@@ -34,11 +34,7 @@ struct TestVector {
     encryptions: Vec<EncryptionRecord>,
 }
 
-#[test]
-fn decrypt_test_vectors() {
-    let test_vectors: Vec<TestVector> =
-        serde_json::from_str(include_str!("./test-vectors.json")).unwrap(); // https://github.com/cfrg/draft-irtf-cfrg-hpke/raw/master/test-vectors.json
-
+fn decrypt_test_vector(test_vectors: Vec<TestVector>) {
     let test_vectors = test_vectors
         .into_iter()
         .filter(|v| v.mode == 0)
@@ -72,4 +68,20 @@ fn decrypt_test_vectors() {
             assert_eq!(plaintext, encryption.plaintext);
         }
     }
+}
+
+#[test]
+fn test_vector_rfc() {
+    // https://github.com/cfrg/draft-irtf-cfrg-hpke/raw/master/test-vectors.json
+    let test_vectors: Vec<TestVector> =
+        serde_json::from_str(include_str!("./test-vectors.json")).unwrap();
+    decrypt_test_vector(test_vectors);
+}
+
+#[test]
+fn test_vector_pq_hybrid() {
+    // https://github.com/hpkewg/hpke-pq/blob/11b5b9541e9976fc9ce25902011d20dacc089066/test-vectors.json
+    let test_vectors: Vec<TestVector> =
+        serde_json::from_str(include_str!("./test-vectors-pq.json")).unwrap();
+    decrypt_test_vector(test_vectors);
 }

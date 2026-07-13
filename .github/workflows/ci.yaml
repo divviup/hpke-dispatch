@@ -45,7 +45,7 @@ jobs:
 
     # Check using Clippy with the feature combinations listed in the README.
     - run: cargo clippy
-    - run: cargo clippy --no-default-features --features algo-all,base-mode-open,serde
+    - run: cargo clippy --no-default-features --features aes,hkdfsha2,nistp,serde
 
     - name: Format
       run: cargo fmt --all -- --check
