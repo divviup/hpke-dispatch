@@ -26,16 +26,16 @@ pub enum Kdf {
     /// Sha512 [RFC5869](https://www.rfc-editor.org/info/rfc5869)
     #[cfg(feature = "hkdfsha2")]
     Sha512 = 0x0003,
-    /// SHAKE128 [RFC 9861](https://www.rfc-editor.org/info/rfc9861/)
+    /// SHAKE128 [FIPS 202](https://csrc.nist.gov/pubs/fips/202/final)
     #[cfg(feature = "shake")]
     Shake128 = 0x0010,
-    /// SHAKE256 [RFC 9861](https://www.rfc-editor.org/info/rfc9861/)
+    /// SHAKE256 [FIPS 202](https://csrc.nist.gov/pubs/fips/202/final)
     #[cfg(feature = "shake")]
     Shake256 = 0x0011,
-    /// TurboSHAKE128 [RFC 9861](https://www.rfc-editor.org/info/rfc9861/)
+    /// TurboSHAKE128 [FIPS 202](https://csrc.nist.gov/pubs/fips/202/final)
     #[cfg(feature = "shake")]
     TurboShake128 = 0x0012,
-    /// TurboSHAKE256 [RFC 9861](https://www.rfc-editor.org/info/rfc9861/)
+    /// TurboSHAKE256 [FIPS 202](https://csrc.nist.gov/pubs/fips/202/final)
     #[cfg(feature = "shake")]
     TurboShake256 = 0x0013,
 }
