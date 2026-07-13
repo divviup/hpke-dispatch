@@ -10,21 +10,19 @@ keywords = ["hpke", "encryption"]
 categories = ["cryptography"]
 
 [features]
-base-mode-open = []
-base-mode-seal = []
 serde = ["serde_crate"]
 algo-all = ["aead-all", "kdf-all", "kem-all"]
-default = ["algo-all", "base-mode-seal", "base-mode-open"]
-aead-all = ["aead-aes", "aead-chacha"]
-aead-aes = ["hpke/aes"]
-aead-chacha = ["hpke/chacha"]
-kdf-all = ["kdf-hkdfsha2", "kdf-shake"]
-kdf-hkdfsha2 = ["hpke/hkdfsha2"]
-kdf-shake = ["hpke/shake"]
-kem-all = ["kem-x25519", "kem-nistp", "kem-mlkem"]
-kem-x25519 = ["hpke/x25519"]
-kem-nistp = ["hpke/nistp"]
-kem-mlkem = ["hpke/mlkem"]
+default = ["algo-all"]
+aead-all = ["aes", "chacha"]
+aes = ["hpke/aes"]
+chacha = ["hpke/chacha"]
+kdf-all = ["hkdfsha2", "shake"]
+hkdfsha2 = ["hpke/hkdfsha2"]
+shake = ["hpke/shake"]
+kem-all = ["x25519", "nistp", "mlkem"]
+x25519 = ["hpke/x25519"]
+nistp = ["hpke/nistp"]
+mlkem = ["hpke/mlkem"]
 
 [dependencies]
 num_enum = "0.7.0"
@@ -48,6 +46,5 @@ denylist = ["algo-all", "aead-all", "kdf-all", "kem-all"]
 # We don't use the implicit "serde_crate" feature, only our explicitly defined
 # "serde" feature.
 skip_optional_dependencies = true
-# Allow for one of base-mode-open/base-mode-seal, one KEM, one KDF, one AEAD,
-# plus serde or another feature
-max_combination_size = 5
+# Allow for one KEM, one KDF, one AEAD, plus serde or another feature
+max_combination_size = 4

@@ -1,9 +1,6 @@
-#[cfg(feature = "base-mode-open")]
-use crate::base_mode_open;
-#[cfg(feature = "base-mode-seal")]
-use crate::{base_mode_seal, EncappedKeyAndCiphertext};
-use crate::{Aead, IdLookupError, Kdf, Kem};
-#[cfg(any(feature = "base-mode-seal", feature = "base-mode-open"))]
+use crate::{
+    base_mode_open, base_mode_seal, Aead, EncappedKeyAndCiphertext, IdLookupError, Kdf, Kem,
+};
 use hpke::HpkeError;
 
 /**
@@ -33,8 +30,6 @@ impl Config {
     selected algorithm is provided through the [`Config`] that this
     method is called on.
 
-    Requires the `base-mode-seal` crate feature to be enabled.
-
     # Errors
 
     This will return an `Result::Err` variant if:
@@ -44,7 +39,6 @@ impl Config {
      * there is an error in encryption
 
      */
-    #[cfg(feature = "base-mode-seal")]
     pub fn base_mode_seal(
         &self,
         recipient_public_key: &[u8],
@@ -61,8 +55,6 @@ impl Config {
     algorithm. Instead, the selected algorithm is provided through the
     [`Config`] that this method is called on.
 
-    Requires the `base-mode-open` crate feature to be enabled.
-
     # Errors
 
     This will return an `Result::Err` variant if:
@@ -72,7 +64,6 @@ impl Config {
     * there is an error in decryption
 
     */
-    #[cfg(feature = "base-mode-open")]
     pub fn base_mode_open(
         &self,
         private_key: &[u8],

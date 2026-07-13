@@ -15,10 +15,9 @@
 )]
 #![doc = include_str!("../README.md")]
 #![cfg(all(
-    any(feature = "base-mode-open", feature = "base-mode-seal"),
-    any(feature = "aead-aes", feature = "aead-chacha",),
-    any(feature = "kdf-hkdfsha2", feature = "kdf-shake"),
-    any(feature = "kem-nistp", feature = "kem-x25519", feature = "kem-mlkem",),
+    any(feature = "aes", feature = "chacha",),
+    any(feature = "hkdfsha2", feature = "shake"),
+    any(feature = "nistp", feature = "x25519", feature = "mlkem",),
 ))]
 
 use hpke::{Deserializable, HpkeError};
@@ -26,14 +25,10 @@ use hpke::{Deserializable, HpkeError};
 #[macro_use]
 mod macros;
 
-#[cfg(feature = "base-mode-open")]
 mod base_mode_open;
-#[cfg(feature = "base-mode-open")]
 pub use base_mode_open::base_mode_open;
 
-#[cfg(feature = "base-mode-seal")]
 mod base_mode_seal;
-#[cfg(feature = "base-mode-seal")]
 pub use base_mode_seal::base_mode_seal;
 
 mod config;
