@@ -1,5 +1,6 @@
-use crate::Kem;
 use hpke::Serializable;
+
+use crate::Kem;
 
 /// An encoded keypair
 #[derive(Debug, Clone, Eq, PartialEq, zeroize::Zeroize)]

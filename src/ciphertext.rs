@@ -1,13 +1,12 @@
-/**
-a simple struct to return the combined encapsulated key
-and ciphertext from seal
-*/
+/// Encapsulated key and ciphertext.
+///
+/// Obtained from [`crate::base_mode_seal::base_mode_seal`].
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct EncappedKeyAndCiphertext {
-    /// the encapsulated encryption key
+    /// The encapsulated encryption key
     pub encapped_key: Vec<u8>,
 
-    /// the ciphertext, encrypted with the key
+    /// The ciphertext, encrypted with the key
     pub ciphertext: Vec<u8>,
 }
 

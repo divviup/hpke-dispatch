@@ -39,16 +39,23 @@ jobs:
       RUSTDOCFLAGS: -Dwarnings
     steps:
     - uses: actions/checkout@v7.0.0
-    - uses: dtolnay/rust-toolchain@stable
+    - name: Install stable Rust
+      uses: dtolnay/rust-toolchain@stable
       with:
-        components: rustfmt, clippy
+        components: clippy
 
     # Check using Clippy with the feature combinations listed in the README.
     - run: cargo clippy
     - run: cargo clippy --no-default-features --features aes,hkdfsha2,nistp,serde
 
-    - name: Format
-      run: cargo fmt --all -- --check
-
     - name: Docs
       run: cargo doc --no-deps
+
+    - name: Install nightly Rust
+      uses: dtolnay/rust-toolchain@nightly
+      with:
+        components: rustfmt
+
+    - name: Format
+      run: cargo +nightly fmt --all --message-format human -- --check
+
