@@ -1,0 +1,9 @@
+(function() {
+    const implementors = Object.fromEntries([["crypto_bigint",[]],["elliptic_curve",[]],["p256",[["impl <a class=\"trait\" href=\"crypto_bigint/modular/trait.Retrieve.html\" title=\"trait crypto_bigint::modular::Retrieve\">Retrieve</a> for <a class=\"struct\" href=\"p256/struct.Scalar.html\" title=\"struct p256::Scalar\">Scalar</a>",0]]],["p384",[["impl <a class=\"trait\" href=\"crypto_bigint/modular/trait.Retrieve.html\" title=\"trait crypto_bigint::modular::Retrieve\">Retrieve</a> for <a class=\"struct\" href=\"p384/struct.Scalar.html\" title=\"struct p384::Scalar\">Scalar</a>",0]]],["p521",[["impl <a class=\"trait\" href=\"crypto_bigint/modular/trait.Retrieve.html\" title=\"trait crypto_bigint::modular::Retrieve\">Retrieve</a> for <a class=\"struct\" href=\"p521/struct.Scalar.html\" title=\"struct p521::Scalar\">Scalar</a>",0]]],["primefield",[["impl&lt;MOD, const LIMBS: <a class=\"primitive\" href=\"https://doc.rust-lang.org/1.97.0/core/primitive.usize.html\">usize</a>&gt; <a class=\"trait\" href=\"crypto_bigint/modular/trait.Retrieve.html\" title=\"trait crypto_bigint::modular::Retrieve\">Retrieve</a> for <a class=\"struct\" href=\"primefield/struct.MontyFieldElement.html\" title=\"struct primefield::MontyFieldElement\">MontyFieldElement</a>&lt;MOD, LIMBS&gt;<div class=\"where\">where\n    MOD: <a class=\"trait\" href=\"primefield/trait.MontyFieldParams.html\" title=\"trait primefield::MontyFieldParams\">MontyFieldParams</a>&lt;LIMBS&gt;,</div>",0]]],["primeorder",[]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":59,"fragment_lengths":[20,22,252,252,252,636,18]}

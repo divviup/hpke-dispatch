@@ -1,0 +1,9 @@
+(function() {
+    const implementors = Object.fromEntries([["hybrid_array",[["impl&lt;T, U&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.97.0/core/borrow/trait.BorrowMut.html\" title=\"trait core::borrow::BorrowMut\">BorrowMut</a>&lt;<a class=\"primitive\" href=\"https://doc.rust-lang.org/1.97.0/core/primitive.slice.html\">[T]</a>&gt; for <a class=\"struct\" href=\"hybrid_array/struct.Array.html\" title=\"struct hybrid_array::Array\">Array</a>&lt;T, U&gt;<div class=\"where\">where\n    U: <a class=\"trait\" href=\"hybrid_array/trait.ArraySize.html\" title=\"trait hybrid_array::ArraySize\">ArraySize</a>,</div>",0],["impl&lt;T, U, const N: <a class=\"primitive\" href=\"https://doc.rust-lang.org/1.97.0/core/primitive.usize.html\">usize</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.97.0/core/borrow/trait.BorrowMut.html\" title=\"trait core::borrow::BorrowMut\">BorrowMut</a>&lt;<a class=\"primitive\" href=\"https://doc.rust-lang.org/1.97.0/core/primitive.array.html\">[T; N]</a>&gt; for <a class=\"struct\" href=\"hybrid_array/struct.Array.html\" title=\"struct hybrid_array::Array\">Array</a>&lt;T, U&gt;<div class=\"where\">where\n    U: <a class=\"trait\" href=\"hybrid_array/trait.ArraySize.html\" title=\"trait hybrid_array::ArraySize\">ArraySize</a>&lt;ArrayType&lt;T&gt; = <a class=\"primitive\" href=\"https://doc.rust-lang.org/1.97.0/core/primitive.array.html\">[T; N]</a>&gt;,</div>",0]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":59,"fragment_lengths":[1376]}

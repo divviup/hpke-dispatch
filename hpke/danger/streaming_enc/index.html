@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="The underlying streaming/online encryption primitive defined in the HPKE spec."><title>hpke::danger::streaming_enc - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="hpke" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.0 (2d8144b78 2026-07-07)" data-channel="1.97.0" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Module streaming_enc</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../hpke/index.html">hpke</a><span class="version">0.14.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module streaming_<wbr>enc</a></h2><h3><a href="#structs">Module Items</a></h3><ul class="block"><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#functions" title="Functions">Functions</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="../index.html">In hpke::<wbr>danger</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">hpke</a>::<wbr><a href="../index.html">danger</a></div><h1>Module <span>streaming_<wbr>enc</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/hpke/danger/streaming_enc.rs.html#1-354">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>The underlying streaming/online encryption primitive defined in the HPKE spec.</p>
+<p>DO NOT use the same key for two sender contexts or two receiver contexts. Doing this
+can lead to reflection attacks, i.e., replaying Alice’s message to Alice herself,
+pretending it came from Bob.</p>
+<p>Example use:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="comment">// These types define the ciphersuite Alice and Bob will be using
+</span><span class="kw">type </span>Kem = XWing;
+<span class="kw">type </span>Aead = ChaCha20Poly1305;
+<span class="kw">type </span>Kdf = KdfTurboShake128;
+
+<span class="kw">let </span><span class="kw-2">mut </span>csprng = rand::rng();
+
+<span class="comment">// This is a description string for the session. Both Alice and Bob need to know this value.
+// It's not secret.
+</span><span class="kw">let </span>info_str = <span class="string">b"Alice and Bob's weekly chat"</span>;
+
+<span class="comment">// Pick a random key, base nonce, and exporter secret for the streaming encryption context
+</span><span class="kw">let </span><span class="kw-2">mut </span>key = AeadKey::&lt;Aead&gt;::default();
+<span class="kw">let </span><span class="kw-2">mut </span>base_nonce = AeadNonce::default();
+<span class="kw">let </span><span class="kw-2">mut </span>exporter_secret = ExporterSecret::&lt;Kdf&gt;::default();
+csprng.fill_bytes(key.<span class="number">0</span>.as_mut_slice());
+csprng.fill_bytes(base_nonce.<span class="number">0</span>.as_mut_slice());
+csprng.fill_bytes(exporter_secret.<span class="number">0</span>.as_mut_slice());
+
+<span class="comment">// Set up the sender and receiver contexts
+</span><span class="kw">let </span>base_nonce_copy = AeadNonce::&lt;Aead&gt;(base_nonce.<span class="number">0</span>);
+<span class="kw">let </span>exporter_secret_copy = ExporterSecret::&lt;Kdf&gt;(exporter_secret.<span class="number">0</span>);
+<span class="kw">let </span><span class="kw-2">mut </span>sender_ctx = create_sender_context::&lt;<span class="kw">_</span>, <span class="kw">_</span>, Kem&gt;(
+    <span class="kw-2">&amp;</span>key,
+    base_nonce_copy,
+    exporter_secret_copy,
+);
+<span class="kw">let </span><span class="kw-2">mut </span>receiver_ctx = create_receiver_context::&lt;<span class="kw">_</span>, <span class="kw">_</span>, Kem&gt;(
+    <span class="kw-2">&amp;</span>key,
+    base_nonce,
+    exporter_secret,
+);
+
+<span class="kw">let </span>msg = <span class="string">b"fronthand or backhand?"</span>;
+<span class="kw">let </span>aad = <span class="string">b"a gentleman's game"</span>;
+
+<span class="comment">// Encrypt in place with the sender context
+</span><span class="kw">let </span>ciphertext = sender_ctx.seal(msg, aad).expect(<span class="string">"seal() failed"</span>);
+<span class="comment">// Decrypt with the receiver context
+</span><span class="kw">let </span>decrypted = receiver_ctx.open(<span class="kw-2">&amp;</span>ciphertext, aad).expect(<span class="string">"open() failed"</span>);
+
+<span class="comment">// Check the decrypted message was what was sent
+</span><span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>decrypted, msg);</code></pre></div></div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.AeadKey.html" title="struct hpke::danger::streaming_enc::AeadKey">AeadKey</a></dt><dd>A struct representing a generic key for an AEAD cipher.
+Implements <code>Default</code> and <code>Zeroize</code>, and zeroizes on drop.</dd><dt><a class="struct" href="struct.AeadNonce.html" title="struct hpke::danger::streaming_enc::AeadNonce">Aead<wbr>Nonce</a></dt><dd>A nonce is a bytestring you only use for encryption once.
+Implements <code>Default</code> and <code>Zeroize</code>, and zeroizes on drop.</dd><dt><a class="struct" href="struct.ExporterSecret.html" title="struct hpke::danger::streaming_enc::ExporterSecret">Exporter<wbr>Secret</a></dt><dd>Secret generated in <code>derive_enc_ctx</code> and stored in <code>AeadCtx</code>.
+Implements <code>Default</code> and <code>Zeroize</code>, and zeroizes on drop.</dd></dl><h2 id="functions" class="section-header">Functions<a href="#functions" class="anchor">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.create_receiver_context.html" title="fn hpke::danger::streaming_enc::create_receiver_context">create_<wbr>receiver_<wbr>context</a></dt><dd>Creates a streaming encryption receiver context from a key, nonce, and exporter secret.</dd><dt><a class="fn" href="fn.create_sender_context.html" title="fn hpke::danger::streaming_enc::create_sender_context">create_<wbr>sender_<wbr>context</a></dt><dd>Creates a streaming encryption sender context from a key, nonce, and exporter secret.</dd></dl></section></div></main></body></html>
