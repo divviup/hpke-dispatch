@@ -40,6 +40,5 @@ that crate's documentation for discussion of how to selectively enable algorithm
 
 To depend on this crate with all algorithms, use default features.
 
-To depend on this crate with all algorithms and serde
-enabled, but without `base-mode-seal`: `default-features = false,
-features = ["algo-all", "base-mode-open", "serde"]`
+To depend on this crate with only AES, NIST curves, SHA-2 and Serde enabled, use
+`default-features = false, features = ["aes", "hkdfsha2", "nistp", "serde"]`.
