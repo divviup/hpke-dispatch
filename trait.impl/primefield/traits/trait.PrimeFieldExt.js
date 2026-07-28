@@ -1,0 +1,9 @@
+(function() {
+    const implementors = Object.fromEntries([["p256",[["impl <a class=\"trait\" href=\"primefield/traits/trait.PrimeFieldExt.html\" title=\"trait primefield::traits::PrimeFieldExt\">PrimeFieldExt</a> for <a class=\"struct\" href=\"p256/struct.Scalar.html\" title=\"struct p256::Scalar\">Scalar</a>",0]]],["p384",[["impl <a class=\"trait\" href=\"primefield/traits/trait.PrimeFieldExt.html\" title=\"trait primefield::traits::PrimeFieldExt\">PrimeFieldExt</a> for <a class=\"struct\" href=\"p384/struct.Scalar.html\" title=\"struct p384::Scalar\">Scalar</a>",0]]],["p521",[["impl <a class=\"trait\" href=\"primefield/traits/trait.PrimeFieldExt.html\" title=\"trait primefield::traits::PrimeFieldExt\">PrimeFieldExt</a> for <a class=\"struct\" href=\"p521/struct.Scalar.html\" title=\"struct p521::Scalar\">Scalar</a>",0]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":59,"fragment_lengths":[258,259,259]}
