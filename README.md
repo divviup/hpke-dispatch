@@ -1,20 +1,21 @@
 # Hybrid public key encryption with algorithms dispatched at runtime
 
 This crate provides a generic-free interface to the [`hpke`][hpke]
-crate, a rust implementation of the draft RFC9180 [hybrid public key
-encryption](https://www.rfc-editor.org/rfc/rfc9180.html)
+crate, a Rust implementation of the [hybrid public key
+encryption][hpke-datatracker]
 scheme. If you know the specific (aead, kdf, kem) triple at compile
 time, you should use the [`hpke`][hpke] crate directly.
 
-Currently, this crate only exposes interfaces for the Base mode (0)
-described in the hpke draft, and within base mode, only stateless
-single-shot message encryption/decryption, as defined in [RFC9180§6][section-6].
+Currently, this crate only exposes interfaces for the Base mode
+described in the HPKE specification, and within base mode, only stateless
+single-shot message encryption/decryption, as defined in
+[Section 6, "Single-Shot APIs"][section-6].
 
 The algorithms supported in this crate and their codepoints are as described in the [HPKE
 specification][hpke-datatracker] and [draft-ietf-hpke-pq][hpke-pq].
 
 [hpke]: https://github.com/rozbb/rust-hpke
-[section-6]: https://www.rfc-editor.org/rfc/rfc9180.html#section-6
+[section-6]: https://www.ietf.org/archive/id/draft-ietf-hpke-hpke-04.html#section-6
 [hpke-datatracker]: https://datatracker.ietf.org/doc/draft-ietf-hpke-hpke/
 [hpke-pq]: https://datatracker.ietf.org/doc/draft-ietf-hpke-pq/
 
@@ -33,7 +34,7 @@ that crate's documentation for discussion of how to selectively enable algorithm
 
 * *kem-all*: Enables `x25519`, `nistp` and `mlkem` algorithm features. Enabled by default.
 
-* *serde*: enables derived serde serialization and deserialization for all public structs and enums.
+* *serde*: Enables derived serde serialization and deserialization for all public structs and enums.
   Disabled by default.
 
 ## Example feature usage:
