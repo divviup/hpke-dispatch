@@ -20,7 +20,8 @@
     any(feature = "nistp", feature = "x25519", feature = "mlkem",),
 ))]
 
-use hpke::{Deserializable, HpkeError};
+use hpke::Deserializable;
+pub use hpke::HpkeError;
 
 #[macro_use]
 mod macros;

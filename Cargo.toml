@@ -1,6 +1,6 @@
 [package]
 name = "hpke-dispatch"
-version = "0.8.0"
+version = "0.9.0"
 edition = "2021"
 description = "Runtime algorithm selection for hybrid public key encryption"
 license = "MPL-2.0"
