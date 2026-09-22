@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["BLOCK_SIZE","KEY_SIZE"],"mod":["hazmat"],"struct":["Polyval"],"type":["Block","Key","ParBlocks","Tag"]};
