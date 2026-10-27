@@ -26,7 +26,7 @@ mlkem = ["hpke/mlkem"]
 
 [dependencies]
 num_enum = "0.7.0"
-hpke = { version = "0.14", default-features = false, features = ["getrandom", "alloc"] }
+hpke = { version = "0.15", default-features = false, features = ["getrandom", "alloc"] }
 zeroize = "1.6"
 
 [dependencies.serde_crate]
