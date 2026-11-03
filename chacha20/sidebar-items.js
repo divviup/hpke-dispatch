@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["hchacha"],"mod":["variants"],"struct":["ChaChaCore","R12","R20","R8"],"trait":["KeyIvInit","Rounds"],"type":["ChaCha12","ChaCha20","ChaCha8","Key","Nonce","XChaCha12","XChaCha20","XChaCha8","XNonce"]};
