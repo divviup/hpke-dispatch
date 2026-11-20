@@ -40,8 +40,9 @@ jobs:
     steps:
     - uses: actions/checkout@v7.0.1
     - name: Install stable Rust
-      uses: dtolnay/rust-toolchain@stable
+      uses: dtolnay/rust-toolchain@master
       with:
+        toolchain: stable
         components: clippy
 
     # Check using Clippy with the feature combinations listed in the README.
@@ -52,8 +53,9 @@ jobs:
       run: cargo doc --no-deps
 
     - name: Install nightly Rust
-      uses: dtolnay/rust-toolchain@nightly
+      uses: dtolnay/rust-toolchain@master
       with:
+        toolchain: nightly
         components: rustfmt
 
     - name: Format
