@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ByteOrder"],"mod":["mul_backend","point_arithmetic"],"struct":["AffinePoint","LookupTable","ProjectivePoint","Radix16Decomposition"],"trait":["ArraySize","Double","Field","FieldArithmetic","FieldExt","PrimeCurve","PrimeCurveParams","PrimeField","PrimeFieldExt","Retrieve","WnafSize"],"type":["FieldBytes","Radix16Digits","Scalar","U1"]};
