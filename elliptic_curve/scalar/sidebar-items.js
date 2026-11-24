@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["BlindedScalar","NonZeroScalar","ScalarValue"],"trait":["FromUintUnchecked","IsHigh"],"type":["Scalar"]};
